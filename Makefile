@@ -1,4 +1,4 @@
-all: send.ok
+all: recv.ok
 
 send.ok: send
 	./send
@@ -8,5 +8,11 @@ recv.ok: recv
 	./recv
 	touch recv.ok
 
-%: %.cc
-	g++ -o $@ $< -static -ggdb3
+libsimp.a: checkret.o
+	ar -r $@ $<
+
+%: %.cc libsimp.a
+	g++ -o $@ $< -static -ggdb3 -lsimp -L.
+
+%.o: %.cc
+	g++ -o $@ $< -c -ggdb3
