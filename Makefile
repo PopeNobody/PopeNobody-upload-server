@@ -1,18 +1,20 @@
-all: recv.ok
+MAKEFLAGS:=-r
 
-send.ok: send
-	./send
-	touch send.ok
+all: recv send dump
 
-recv.ok: recv
-	./recv
-	touch recv.ok
 
-libsimp.a: checkret.o
-	ar -r $@ $<
+libsimp.a: checkret.o fixed_buf.o md5.o
+	ar -r $@ $^
 
-%: %.cc libsimp.a
-	g++ -o $@ $< -static -ggdb3 -lsimp -L.
+%: %.o libsimp.a -ggdb3 -lsimp -L.
+	g++ -o $@ $< 
 
-%.o: %.cc
+
+md5.o: md5.c md5.h
+	gcc -o $@ $< -c -ggdb3 -I .
+
+%.o: %.cc checkret.hh
 	g++ -o $@ $< -c -ggdb3
+
+clean:
+	rm -f *.o *.a recv send
