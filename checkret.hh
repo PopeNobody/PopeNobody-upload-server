@@ -13,11 +13,16 @@ namespace ns_checkret
 
   int xsocket(int family, int type, int prot);
   int xbind(int fd, const struct sockaddr *addr, socklen_t len);
+  void xexit(int res) __attribute__ ((noreturn));
   
-  int xexecve(const char *pathname,
-      const char * argv[], char *const envp[])
-    __attribute__ ((noreturn));;
-  
+//   int ns_checkret::xexecve(const char *pathname, char *const argv[], char *const envp[])
+//     int xexecve(const char *pathname,
+//         const char * argv[], char * envp[])
+//       __attribute__ ((noreturn));;
+//     
+//     int xexecve(const char *pathname,
+//         const char * argv[], char *const envp[])
+//     ;
 //     int execve(const char *pathname, char *const argv[],
 //         char *const envp[]);
 

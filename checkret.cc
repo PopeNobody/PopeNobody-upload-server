@@ -57,6 +57,10 @@ int ns_checkret::xopenat(int dirfd, const char *name, int flags,mode_t mode)
   };
   return res;
 };
+void ns_checkret::xexit(int res){
+  _exit(1);
+  abort();
+};
 int ns_checkret::xread(int fd, char *const buf, size_t size,bool full){
   announce();
   char *beg=buf;
