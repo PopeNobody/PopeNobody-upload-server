@@ -5,3 +5,6 @@ recv
 *.a
 
 out
+cflags
+cppflags
+ldflags
