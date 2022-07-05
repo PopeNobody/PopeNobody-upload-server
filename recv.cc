@@ -2,7 +2,7 @@
 #include <fcntl.h>
 #include "md5.h"
 
-using namespace ns_checkret;
+using namespace checkret;
 
 //   char fname[128];
 //   int xread_ln(int con) {
@@ -71,7 +71,6 @@ int main(int argc, char**argv){
   char resblock[16];
   char md5sum[33];
   struct md5_ctx ctx;
-
   /* Initialize the computation context.  */
   md5_init_ctx (&ctx);
   while(len<bytes){
@@ -85,7 +84,7 @@ int main(int argc, char**argv){
     len+=res;
     res=xwrite(ofd,buffer,res,true);
   }
-  md5_finish_ctx (&ctx, resblock);
+  /* Initialize the computation context.  */
   for(int i=0;i<sizeof(resblock);i++)
     sprintf(md5sum+2*i,"%02x",resblock[i]&0xff);
   dprintf(1,"('%s')\n",md5sum);

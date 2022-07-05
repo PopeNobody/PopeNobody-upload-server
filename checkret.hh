@@ -3,7 +3,7 @@
 
 #include "fuck.hh"
 
-namespace ns_checkret 
+namespace checkret 
 {
 //          extern char **environ;
 
@@ -15,7 +15,6 @@ namespace ns_checkret
   int xbind(int fd, const struct sockaddr *addr, socklen_t len);
   void xexit(int res) __attribute__ ((noreturn));
   
-//   int ns_checkret::xexecve(const char *pathname, char *const argv[], char *const envp[])
 //     int xexecve(const char *pathname,
 //         const char * argv[], char * envp[])
 //       __attribute__ ((noreturn));;
@@ -59,7 +58,7 @@ namespace ns_checkret
 
   inline int xmkdir(const char *pathname, mode_t mode) 
   {
-    return xmkdirat( AT_FDCWD, pathname, mode ); 
+    return mkdir( pathname, mode ); 
   };
 
   // write the whole zero-termed string.
@@ -80,7 +79,6 @@ namespace ns_checkret
 
   int bind_and_accept(const char *addr, int port);
   int xread_ln(int con);
-  int xmkdirsat(int dirfd, const char *pathname, mode_t mode);
 
   int pexit(int ret,const char *msg) __attribute__ ((noreturn));
 

@@ -1,7 +1,7 @@
 #include "checkret.hh"
 #include "md5.h"
 
-using namespace ns_checkret;
+using namespace checkret;
 
 long min(long lhs, long rhs) {
   return lhs<rhs ? lhs : rhs;

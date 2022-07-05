@@ -15,39 +15,32 @@
 #define announce() 
 //dprintf(2,"%s:%d:%s\n",__FILE__,__LINE__,__PRETTY_FUNCTION__);
 
-using namespace ns_checkret;
+using namespace checkret;
 
-int ns_checkret::xbind(int fd, const struct sockaddr *addr, socklen_t len){
+int checkret::xbind(int fd, const struct sockaddr *addr, socklen_t len){
   announce();
   int res=bind(fd,addr,len);
-  if(res<0) {
-    perror("bind");
-    exit(2);
-  };
+  if(res<0)
+    pexit(2,"bind");
   return res;
 };
-int ns_checkret::xinet_aton(const char *cp, struct in_addr *inp){
+int checkret::xinet_aton(const char *cp, struct in_addr *inp){
   announce();
   int res=inet_aton(cp,inp);
-  if(!res) {
-    perror("inet_aton");
-    exit(3);
-  };
-  printf("%s\n",inet_ntoa(*inp));
+  if(!res)
+   pexit(3,"inet_aton"); 
   return res;
 };
-int ns_checkret::xconnect(int sock, sockaddr*addr,socklen_t len){
+int checkret::xconnect(int sock, sockaddr*addr,socklen_t len){
   announce();
   int res=connect(sock,addr,len);
-  if(res<0){
-    perror("connect");
-    exit(5);
-  }
+  if(res<0)
+    pexit(5,"connect");
   return res;
 };
 
 
-int ns_checkret::xopenat(int dirfd, const char *name, int flags,mode_t mode)
+int checkret::xopenat(int dirfd, const char *name, int flags,mode_t mode)
 {
   announce();
   int res=openat(dirfd,name,flags,mode);
@@ -57,11 +50,11 @@ int ns_checkret::xopenat(int dirfd, const char *name, int flags,mode_t mode)
   };
   return res;
 };
-void ns_checkret::xexit(int res){
+void checkret::xexit(int res){
   _exit(1);
   abort();
 };
-int ns_checkret::xread(int fd, char *const buf, size_t size,bool full){
+int checkret::xread(int fd, char *const buf, size_t size,bool full){
   announce();
   char *beg=buf;
   char *end=beg+size;  
@@ -78,7 +71,7 @@ int ns_checkret::xread(int fd, char *const buf, size_t size,bool full){
   }
   return beg-buf;
 };
-int ns_checkret::xsocket(int family, int type, int prot){
+int checkret::xsocket(int family, int type, int prot){
   announce();
   int res=socket(family,type,prot);
   if(res<0) {
@@ -87,7 +80,7 @@ int ns_checkret::xsocket(int family, int type, int prot){
   };
   return res;
 };
-int ns_checkret::xlisten(int sock, int backlog){
+int checkret::xlisten(int sock, int backlog){
   announce();
   int res=listen(sock,backlog);
   if(res){
@@ -96,7 +89,7 @@ int ns_checkret::xlisten(int sock, int backlog){
   };
   return 0;
 };
-int ns_checkret::xaccept(int sock, sockaddr *addr, socklen_t *addrlen){
+int checkret::xaccept(int sock, sockaddr *addr, socklen_t *addrlen){
   announce();
   int res=accept(sock,addr,addrlen);
   if(res<=0){
@@ -105,7 +98,7 @@ int ns_checkret::xaccept(int sock, sockaddr *addr, socklen_t *addrlen){
   };
   return res;
 }
-int ns_checkret::xaccept4(int sock, sockaddr *addr, socklen_t *addrlen,int flags){
+int checkret::xaccept4(int sock, sockaddr *addr, socklen_t *addrlen,int flags){
   announce();
   int res=accept4(sock,addr,addrlen,flags);
   if(res<=0){
@@ -138,7 +131,7 @@ size_t xxwrite(int fd, const char *const buf, size_t size, bool full) {
   }
   return beg-buf;
 };
-size_t ns_checkret::xwrite(int fd, const char *const buf, size_t size, bool full) {
+size_t checkret::xwrite(int fd, const char *const buf, size_t size, bool full) {
   size_t res = xxwrite(fd,buf,size,full);
   //dprintf(2,"xwrite(%lu) => %lu\n", size, res);
   return res;
@@ -150,7 +143,7 @@ size_t ns_checkret::xwrite(int fd, const char *const buf, size_t size, bool full
 //     };
 //     return res;
 //   }
-int ns_checkret::xdup2(int oldfd, int newfd) {
+int checkret::xdup2(int oldfd, int newfd) {
   announce();
   int res=dup2(oldfd,newfd);
   if(res<0){
@@ -159,7 +152,7 @@ int ns_checkret::xdup2(int oldfd, int newfd) {
   }
   return res;
 };
-int ns_checkret::xclose(int fd){
+int checkret::xclose(int fd){
   int res=close(fd);
   if(res<0){
     perror("close");
@@ -167,10 +160,10 @@ int ns_checkret::xclose(int fd){
   }
   return res;
 };
-int ns_checkret::xsleep(int seconds){
+int checkret::xsleep(int seconds){
   return sleep(seconds);
 };
-int ns_checkret::xsetsockopt(int sock, int proto, int flag, char *value, size_t size){
+int checkret::xsetsockopt(int sock, int proto, int flag, char *value, size_t size){
   int res=setsockopt(sock,proto,flag,value,size);
   if(res<0){
     perror("setsockopt");
@@ -179,7 +172,7 @@ int ns_checkret::xsetsockopt(int sock, int proto, int flag, char *value, size_t 
   return res;
 };
 bool forking();
-int ns_checkret::bind_and_accept(const char *addr, int port) {
+int checkret::bind_and_accept(const char *addr, int port) {
   int sock = xsocket(AF_INET,SOCK_STREAM,0);
   int flag=1;
   xsetsockopt(sock, SOL_SOCKET, SO_REUSEADDR, (char *) &flag, sizeof(int));
@@ -214,26 +207,22 @@ int ns_checkret::bind_and_accept(const char *addr, int port) {
     };
   };
 };
-int ns_checkret::xfork(){
+int checkret::xfork(){
   int res=fork();
-  if(res<0){
-    perror("fork");
-    exit(12);
-  };
+  if(res<0)
+    pexit(12,"fork");
   return res;
 };
-void ns_checkret::xpipe(int fds[2]) {
-  if(pipe(fds)) {
-    perror("pipe");
-    exit(13);
-  };
+void checkret::xpipe(int fds[2]) {
+  if(pipe(fds))
+    pexit(13,"pipe");
 };
-//   int ns_checkret::xexecve(const char *pathname, char *const argv[], char *const envp[])
+//   int checkret::xexecve(const char *pathname, char *const argv[], char *const envp[])
 //   {
 //     execve(pathname,argv,envp);
 //     pexit(14,"execve");
 //   }
-//   int ns_checkret::xexecveat(int dirfd, const char *pathname,
+//   int checkret::xexecveat(int dirfd, const char *pathname,
 //       char *const argv[], char *const envp[],
 //       int flags)
 //   {
@@ -241,3 +230,7 @@ void ns_checkret::xpipe(int fds[2]) {
 //     pexit(14,"execveat");
 //     exit(-1);
 //   };
+void xmkdirat(int dirfd, const char *pathname, mode_t mode){
+  if(mkdirat(dirfd,pathname,mode))
+    pexit(14,"mkdir");
+};
