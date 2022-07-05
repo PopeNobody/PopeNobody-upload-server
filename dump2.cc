@@ -33,31 +33,33 @@ static bool safe_char(char ch){
       return false;
   };
 };
-static char buf[8192];
+static char buf[8];
 int ifd=-1;
 static char fn_buf[30];
 int filename() {
   srandom(time(0));
-  return snprintf(fn_buf,sizeof(fn_buf),"file%08lx.txt",(unsigned)0xffffffff&random());
+  return snprintf(fn_buf,sizeof(fn_buf),"log/file%08lx.txt",(long)getpid());
 };
+size_t total=0;
 int main(int argc, char**argv){
   long len=filename();
   int ofd=xopenat(AT_FDCWD,fn_buf,O_CREAT|O_WRONLY|O_EXCL,0777);
   while(true){
     ifd=bind_and_accept("0.0.0.0",3333);
-    while(len=read(ifd,buf,sizeof(buf))!=0)
+    write_cs(1,"accepted");
+    while((len=read(ifd,buf,sizeof(buf)))!=0)
     {
-      if(!len)
-        break;       
       const char *beg(buf);
       const char *end(beg+len);
       while(beg<end) {
         len=xwrite(ofd,beg,end-beg);
+        total+=len;
         beg+=len;
       };
     };
+    dprintf(1,"wrote %lu bytes\n",total);
+    return 0;
   };
-  return 0;
 };
 //   int xforkpipe(){
 //     int fds[2];
