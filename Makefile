@@ -3,7 +3,11 @@ MAKEFLAGS:=-rR
 LD=g++
 CXX=g++
 
-all: recv send dump 
+dump2-test: dump2
+	teeout dump2.out strace -ofuck -fF ./dump2
+	
+
+all: recv send dump dump2
 
 CPPFLAGS := -ggdb3 -I . -I .
 export CPPFLAGS
@@ -40,7 +44,7 @@ ldflags:
 libsimp.a: libsimp.a(checkret.o) libsimp.a(fixed_buf.o) libsimp.a(md5.o)
 .PRECIOUS: $(patsubst %.cc,%.o,$(wildcard *.cc *c))
 
-recv send dump: %: %.o libsimp.a ldflags
+recv send dump dump2: %: %.o libsimp.a ldflags
 	g++ -o $@ $< $$(cat ldflags)
 
 

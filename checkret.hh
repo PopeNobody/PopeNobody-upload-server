@@ -46,7 +46,7 @@ namespace ns_checkret
   int xconnect(int sock, sockaddr *addr, socklen_t len);
 //     int xopen(const char *name, int flags,mode_t mode=0777);
   int xread(int fd, char *buf, size_t size, bool full=false);
-  int xwrite(int fd, const char *beg, size_t size, bool full=false);
+  size_t xwrite(int fd, const char *beg, size_t size, bool full=false);
   int xdup2(int oldfd, int newfd);
   int xclose(int fd);
   int xsleep(int seconds);
@@ -60,6 +60,12 @@ namespace ns_checkret
   inline int xmkdir(const char *pathname, mode_t mode) 
   {
     return xmkdirat( AT_FDCWD, pathname, mode ); 
+  };
+
+  // write the whole zero-termed string.
+  inline size_t write_cs(int fd, const char *str)
+  {
+    return xwrite(fd, str, strlen(str), true);
   };
   
 //     inline int xcreat(const char *pathname, mode_t mode) 

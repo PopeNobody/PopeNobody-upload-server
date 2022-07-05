@@ -6,7 +6,8 @@ file="$1"
 shift
 echo "$@" > ${file}.new
 if test -e "${file}" ; then
-  cmp ${file}.new ${file} && rm -f "${file}"
+  report cmp ${file}.new ${file} 
+  rm -f "${file}"
 fi
 if test -e "${file}"; then
   rm -f "${file}.new"
