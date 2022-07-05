@@ -4,7 +4,6 @@ LD=g++
 CXX=g++
 
 dump2-test: dump2
-	teeout dump2.out strace -ofuck -fF ./dump2
 	
 
 all: recv send dump dump2
@@ -57,3 +56,4 @@ md5.o: md5.c md5.h config.h
 
 clean:
 	rm -f *.o *.a recv send
+	rm -fr log

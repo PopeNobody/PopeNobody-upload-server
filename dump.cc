@@ -10,11 +10,10 @@ extern "C" {
   int atoi(const char *);
 }
 bool forking(){
-  return true;
+  return false;
 };
 
 
-static char filename[128];
 template<typename ch_t>
 bool between(ch_t min, ch_t val, ch_t max){
   return !(val<min || val>max);
@@ -34,25 +33,34 @@ static bool safe_char(char ch){
       return false;
   };
 };
-//   void readFileName() {
-//     char buf;
-//     memset(filename,0,sizeof(filename));
-//     int pos=0;
-//     while(xread(ofd,&buf,1)==1){
-//       if(buf==10) {
-//         return;
-//       } else if(safe_char(buf)) {
-//         filename[pos++]=buf;
-//       } else {
-//         dprintf(ofd,"bad char: %d\n",buf);
-//         xclose(ofd);
-//         xexit(9);
-//       };
-//         
-//     };
-//   }
-static char buf[8192];
+static char buf[8];
 int ifd=-1;
+static char fn_buf[30];
+int filename() {
+  srandom(time(0));
+  return snprintf(fn_buf,sizeof(fn_buf),"log/file%08lx.txt",(long)getpid());
+};
+size_t total=0;
+int main(int argc, char**argv){
+  long len=filename();
+  int ofd=xopenat(AT_FDCWD,fn_buf,O_CREAT|O_WRONLY|O_EXCL,0777);
+  while(true){
+    ifd=bind_and_accept("0.0.0.0",3333);
+    write_cs(1,"accepted");
+    while((len=read(ifd,buf,sizeof(buf)))!=0)
+    {
+      const char *beg(buf);
+      const char *end(beg+len);
+      while(beg<end) {
+        len=xwrite(ofd,beg,end-beg);
+        total+=len;
+        beg+=len;
+      };
+    };
+    dprintf(1,"wrote %lu bytes\n",total);
+    return 0;
+  };
+};
 //   int xforkpipe(){
 //     int fds[2];
 //     xpipe(fds);
@@ -71,20 +79,20 @@ int ifd=-1;
 //     return 0;
 //   };
 
-int main(int argc, char**argv){
-  ifd=bind_and_accept("0.0.0.0",3333);
-  snprintf(filename,sizeof(filename)-1,"adump.%d",getpid());
-  xwrite(1,"connected");
-  int ofd=xopenat(AT_FDCWD,filename,O_CREAT|O_WRONLY|O_EXCL,0777);
-
-  while(true){
-    int len=read(ifd,buf,sizeof(buf));
-    const char *beg(buf);
-    const char *end(beg+len);
-    while(beg<end) {
-      len=xwrite(ofd,beg,end-beg);
-      beg+=len;
-    };
-  };
-  return 0;
-};
+//   void readFileName() {
+//     char buf;
+//     memset(filename,0,sizeof(filename));
+//     int pos=0;
+//     while(xread(ofd,&buf,1)==1){
+//       if(buf==10) {
+//         return;
+//       } else if(safe_char(buf)) {
+//         filename[pos++]=buf;
+//       } else {
+//         dprintf(ofd,"bad char: %d\n",buf);
+//         xclose(ofd);
+//         xexit(9);
+//       };
+//         
+//     };
+//   }
