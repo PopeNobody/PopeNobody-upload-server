@@ -13,10 +13,10 @@
 #include "fixed_buf.hh"
 #include "checkret.hh"
 #define announce() 
+//dprintf(2,"%s:%d:%s\n",__FILE__,__LINE__,__PRETTY_FUNCTION__);
 
 using namespace ns_checkret;
 
-//dprintf(2,"%s:%d:%s\n",__FILE__,__LINE__,__PRETTY_FUNCTION__);
 int ns_checkret::xbind(int fd, const struct sockaddr *addr, socklen_t len){
   announce();
   int res=bind(fd,addr,len);
@@ -114,7 +114,7 @@ int ns_checkret::xaccept4(int sock, sockaddr *addr, socklen_t *addrlen,int flags
   };
   return res;
 }
-int ns_checkret::xwrite(int fd, const char *const buf, size_t size, bool full) {
+size_t xxwrite(int fd, const char *const buf, size_t size, bool full) {
   announce();
   const char *beg=buf;
   const char *end;
@@ -126,19 +126,23 @@ int ns_checkret::xwrite(int fd, const char *const buf, size_t size, bool full) {
     end=beg+size;
   };
 
-  while(beg!=end) {
+  while(end>beg){
     int res=write(fd,beg,end-beg);
-    if(res<0){
-      perror("write");
-      exit(8);
-    } else if (res==0 || !full) {
-      break;
-    } else {
-      beg+=res;
-    }
+    if(!res) {
+      if(full)
+        continue;
+      else
+        return 0;
+    };
+    beg+=res;
   }
   return beg-buf;
 };
+size_t ns_checkret::xwrite(int fd, const char *const buf, size_t size, bool full) {
+  size_t res = xxwrite(fd,buf,size,full);
+  //dprintf(2,"xwrite(%lu) => %lu\n", size, res);
+  return res;
+}
 //   int xwrite(int fd, const char *const buf, size_t size, bool full) {
 //     int res;
 //     for(int i=0;i<size;i++){
