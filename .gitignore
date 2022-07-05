@@ -1,5 +1,6 @@
 send
 recv
+dump
 *.ok
 *.o
 *.a
