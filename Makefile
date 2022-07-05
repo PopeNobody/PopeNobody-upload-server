@@ -44,8 +44,8 @@ recv send dump: %: %.o libsimp.a ldflags
 	g++ -o $@ $< $$(cat ldflags)
 
 
-md5.o: md5.c md5.h config.h
-	gcc -o $@ $< -c $$(cat cflags)
+#    md5.o: md5.c md5.h config.h
+#    	gcc -o $@ $< -c $$(cat cflags)
 
 %.o: %.cc checkret.hh fixed_buf.hh cppflags
 	g++ -o $@ $< -c $$(cat cppflags)
