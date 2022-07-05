@@ -1,16 +1,11 @@
 #!/bin/bash
 
 
-set -vx
 file="$1"
 shift
-echo "$@" > ${file}.new
-if test -e "${file}" ; then
-  report cmp ${file}.new ${file} 
-  rm -f "${file}"
-fi
-if test -e "${file}"; then
-  rm -f "${file}.new"
+echo  "" "$@" > ${file}.new
+if report test -e "${file}" && report not cmp ${file}.new ${file} ; then
+  report mv ${file}.new ${file}
 else
-  mv ${file}.new ${file}
+  report rm -f "${file}.new"
 fi
