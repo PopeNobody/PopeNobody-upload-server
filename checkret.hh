@@ -8,7 +8,7 @@ namespace checkret
 //          extern char **environ;
 
 
-  int xmkdirat(int dirfd, const char *pathname, mode_t mode);
+  void xmkdirat(int dirfd, const char *pathname, mode_t mode);
   int xopenat(int dirfd, const char *pathname, int flags, mode_t mode=0);
 
   int xsocket(int family, int type, int prot);
@@ -86,6 +86,7 @@ namespace checkret
     perror(msg);
     exit(ret);
   };
+  const char *now();
 }
 
 #endif
