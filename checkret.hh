@@ -1,7 +1,20 @@
 #ifndef checkret_hh
 #define checkret_hh checkret_hh
 
-#include "fuck.hh"
+
+#include <arpa/inet.h>
+#include <errno.h>
+#include <sys/stat.h>
+#include <fcntl.h>
+#include <netinet/in.h>
+#include <netinet/tcp.h>
+#include <stdio.h>
+#include <stdlib.h>
+#include <string>
+#include <string.h>
+#include <sys/socket.h>
+#include <sys/types.h>
+#include <unistd.h>
 
 namespace checkret 
 {
