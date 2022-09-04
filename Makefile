@@ -16,14 +16,14 @@ libsimp.a: checkret.o fixed_buf.o md5.o
 .PRECIOUS: $(patsubst %.cc,%.o,$(wildcard *.cc *c))
 
 recv send dump: %: %.o libsimp.a ldflags
-	g++ -o $@ $< $$(cat ldflags)
+	g++ -o $@ $< $(shell cat ldflags)
 
 
 md5.o: md5.c md5.h config.h cflags
-	gcc -o $@ $< -c $$(cat cflags)
+	gcc -o $@ $< -c $(shell cat cflags)
 
 %.o: %.cc checkret.hh fixed_buf.hh cppflags
-	g++ -o $@ $< -c $$(cat cppflags)
+	g++ -o $@ $< -c $(shell cat cppflags)
 
 
 clean:

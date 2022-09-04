@@ -189,14 +189,22 @@ int checkret::bind_and_accept(const char *addr, int port) {
   sin_addr.sin_port = htons(port);
   sin_addr.sin_family = AF_INET;
   size_t len=sizeof(sin_addr);
+  dprintf(1,"%s: listen\n",now());
   res=xbind(sock,(sockaddr*)&sin_addr,len);  
+  dprintf(1,"%s: listen\n",now());
+  res=xlisten(sock,1);
   while(true){
-    res=xlisten(sock,1);
     socklen_t socklen;
+    dprintf(1,"%s: accepting on %s:%d\n",now(),addr,port);
     int sockfd=xaccept(sock,(sockaddr*)&sin_addr,&socklen);
+    dprintf(1,"%s: connection from: %s %d\n",
+        now(),
+        inet_ntoa(sin_addr.sin_addr),ntohs(sin_addr.sin_port));
     xsetsockopt(sockfd, IPPROTO_TCP, TCP_NODELAY, (char *) &flag, sizeof(int));
     if(forking()){
-      if(!xfork()) {
+      int pid=xfork();
+      dprintf(1,"%d => %d\n",getpid(),pid);
+      if(!pid) {
         xclose(sock);
         return sockfd;
       };
@@ -230,7 +238,19 @@ void checkret::xpipe(int fds[2]) {
 //     pexit(14,"execveat");
 //     exit(-1);
 //   };
-void xmkdirat(int dirfd, const char *pathname, mode_t mode){
+void checkret::xmkdirat(int dirfd, const char *pathname, mode_t mode){
   if(mkdirat(dirfd,pathname,mode))
     pexit(14,"mkdir");
+};
+const char *checkret::now()
+{
+  static fixed_buf<20> res;
+  tm gm;
+  time_t now;
+  time(&now);
+  gmtime_r(&now,&gm);
+  snprintf(res.buf,res.size(),"%04d%02d%02d-%02d%02d%02dz",
+      gm.tm_year+1900,gm.tm_mon+1,gm.tm_mday,
+      gm.tm_hour,gm.tm_min,gm.tm_sec);
+  return res.beg();
 };
