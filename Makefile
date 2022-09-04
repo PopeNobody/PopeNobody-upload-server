@@ -3,7 +3,7 @@ MAKEFLAGS:=-rR
 LD=g++
 CXX=g++
 
-all: recv send dump 
+all: recv send dump one_upload
 
 CPPFLAGS := -ggdb3 -I . -I .
 export CPPFLAGS
@@ -15,7 +15,7 @@ libsimp.a: checkret.o fixed_buf.o md5.o
 
 .PRECIOUS: $(patsubst %.cc,%.o,$(wildcard *.cc *c))
 
-recv send dump: %: %.o libsimp.a ldflags
+one_upload recv send dump: %: %.o libsimp.a ldflags
 	g++ -o $@ $< $(shell cat ldflags)
 
 
