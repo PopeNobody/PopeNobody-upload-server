@@ -1,0 +1,118 @@
+!_TAG_FILE_FORMAT	2	/extended format; --format=1 will not append ;" to lines/
+!_TAG_FILE_SORTED	1	/0=unsorted, 1=sorted, 2=foldcase/
+!_TAG_PROGRAM_AUTHOR	Darren Hiebert	/dhiebert@users.sourceforge.net/
+!_TAG_PROGRAM_NAME	Exuberant Ctags	//
+!_TAG_PROGRAM_URL	http://ctags.sourceforge.net	/official site/
+!_TAG_PROGRAM_VERSION	5.9~svn20110310	//
+A	md5.h	/^  uint32_t A;$/;"	m	struct:md5_ctx
+B	md5.h	/^  uint32_t B;$/;"	m	struct:md5_ctx
+BLOCKSIZE	md5.c	62;"	d	file:
+C	md5.h	/^  uint32_t C;$/;"	m	struct:md5_ctx
+CPPFLAGS	Makefile	/^CPPFLAGS := -ggdb3 -I . -I .$/;"	m
+CXX	Makefile	/^CXX=g++$/;"	m
+CYCLIC	md5.c	392;"	d	file:
+D	md5.h	/^  uint32_t D;$/;"	m	struct:md5_ctx
+FF	md5.c	336;"	d	file:
+FG	md5.c	337;"	d	file:
+FH	md5.c	338;"	d	file:
+FI	md5.c	339;"	d	file:
+GL_OPENSSL_INLINE	md5.c	25;"	d	file:
+GL_OPENSSL_NAME	md5.h	65;"	d
+LD	Makefile	/^LD=g++$/;"	m
+MAKEFLAGS	Makefile	/^MAKEFLAGS:=-rR$/;"	m
+MD5_BLOCK_SIZE	md5.h	31;"	d
+MD5_DIGEST_SIZE	md5.h	30;"	d
+OP	md5.c	380;"	d	file:
+OP	md5.c	425;"	d	file:
+OP	md5.c	426;"	d	file:
+SWAP	md5.c	57;"	d	file:
+SWAP	md5.c	59;"	d	file:
+UNALIGNED_P	md5.c	295;"	d	file:
+WORDS_BIGENDIAN	md5.c	42;"	d	file:
+_MD5_H	md5.h	21;"	d
+__GNUC_PREREQ	md5.h	35;"	d
+__GNUC_PREREQ	md5.h	38;"	d
+__THROW	md5.h	44;"	d
+__THROW	md5.h	46;"	d
+__md5_buffer	md5.h	51;"	d
+__md5_finish_ctx	md5.h	52;"	d
+__md5_init_ctx	md5.h	53;"	d
+__md5_process_block	md5.h	54;"	d
+__md5_process_bytes	md5.h	55;"	d
+__md5_read_ctx	md5.h	56;"	d
+__md5_stream	md5.h	57;"	d
+announce	checkret.cc	15;"	d	file:
+beg	fixed_buf.hh	/^  char *beg() { return buf; }$/;"	f	struct:fixed_buf
+beg	fixed_buf.hh	/^  const char *beg() const { return buf; }$/;"	f	struct:fixed_buf
+bind_and_accept	checkret.cc	/^int checkret::bind_and_accept(const char *addr, int port) {$/;"	f	class:checkret
+buf	dump.cc	/^static char buf[8];$/;"	v	file:
+buf	fixed_buf.hh	/^  char buf[_size];$/;"	m	struct:fixed_buf
+buffer	md5.h	/^  uint32_t buffer[32]; \/* 128 bytes; the first buflen bytes are in use *\/$/;"	m	struct:md5_ctx
+buffer	send.cc	/^char buffer[1024*300];$/;"	v
+buflen	md5.h	/^  uint32_t buflen;     \/* ≥ 0, ≤ 128 *\/$/;"	m	struct:md5_ctx
+checkret	checkret.hh	/^namespace checkret $/;"	n
+checkret_hh	checkret.hh	2;"	d
+end	fixed_buf.hh	/^  char *end() { return buf+_size; }$/;"	f	struct:fixed_buf
+end	fixed_buf.hh	/^  const char *end() const { return buf+_size; }$/;"	f	struct:fixed_buf
+filename	dump.cc	/^int filename() {$/;"	f
+fillbuf	md5.c	/^static const unsigned char fillbuf[64] = { 0x80, 0 \/* , 0, 0, ...  *\/ };$/;"	v	file:
+fixed_buf	fixed_buf.hh	/^struct fixed_buf {$/;"	s
+fixedbuf_hh	fixed_buf.hh	2;"	d
+fn_buf	dump.cc	/^static char fn_buf[30];$/;"	v	file:
+forking	dump.cc	/^bool forking(){$/;"	f
+forking	recv.cc	/^bool forking(){$/;"	f
+forking	send.cc	/^bool forking(){$/;"	f
+format_now	fixed_buf.cc	/^void format_now(fixed_buf<20> &res)$/;"	f
+ifd	dump.cc	/^int ifd=-1;$/;"	v
+ifd	send.cc	/^int ifd=-1;$/;"	v
+main	dump.cc	/^int main(int argc, char**argv){$/;"	f
+main	recv.cc	/^int main(int argc, char**argv){$/;"	f
+main	send.cc	/^int main(int argc, char**argv){$/;"	f
+md5_buffer	md5.c	/^md5_buffer (const char *buffer, size_t len, void *resblock)$/;"	f
+md5_buffer	md5.c	52;"	d	file:
+md5_ctx	md5.h	/^struct md5_ctx$/;"	s
+md5_finish_ctx	md5.c	/^md5_finish_ctx (struct md5_ctx *ctx, void *resbuf)$/;"	f
+md5_finish_ctx	md5.c	49;"	d	file:
+md5_init_ctx	md5.c	/^md5_init_ctx (struct md5_ctx *ctx)$/;"	f
+md5_init_ctx	md5.c	46;"	d	file:
+md5_process_block	md5.c	/^md5_process_block (const void *buffer, size_t len, struct md5_ctx *ctx)$/;"	f
+md5_process_block	md5.c	47;"	d	file:
+md5_process_bytes	md5.c	/^md5_process_bytes (const void *buffer, size_t len, struct md5_ctx *ctx)$/;"	f
+md5_process_bytes	md5.c	48;"	d	file:
+md5_read_ctx	md5.c	/^md5_read_ctx (const struct md5_ctx *ctx, void *resbuf)$/;"	f
+md5_read_ctx	md5.c	50;"	d	file:
+md5_stream	md5.c	/^md5_stream (FILE *stream, void *resblock)$/;"	f
+md5_stream	md5.c	51;"	d	file:
+min	send.cc	/^long min(long lhs, long rhs) {$/;"	f
+now	checkret.cc	/^const char *checkret::now()$/;"	f	class:checkret
+ofd	send.cc	/^int ofd=-1;$/;"	v
+open_out	recv.cc	/^int open_out(int sockfd){$/;"	f
+pexit	checkret.hh	/^  inline int pexit(int ret,const char *msg){$/;"	f	namespace:checkret
+read_bytes	recv.cc	/^size_t read_bytes(int sockfd){$/;"	f
+readdel	recv.cc	/^int readdel(int fd, char *buf, size_t size, char del){$/;"	f
+sendsum	recv.cc	/^char sendsum[1024];$/;"	v
+set_uint32	md5.c	/^set_uint32 (char *cp, uint32_t v)$/;"	f	file:
+size	fixed_buf.hh	/^  size_t size() { return _size; }$/;"	f	struct:fixed_buf
+total	dump.cc	/^size_t total=0;$/;"	v
+total	md5.h	/^  uint32_t total[2];$/;"	m	struct:md5_ctx
+write_cs	checkret.hh	/^  inline size_t write_cs(int fd, const char *str)$/;"	f	namespace:checkret
+xaccept	checkret.cc	/^int checkret::xaccept(int sock, sockaddr *addr, socklen_t *addrlen){$/;"	f	class:checkret
+xaccept4	checkret.cc	/^int checkret::xaccept4(int sock, sockaddr *addr, socklen_t *addrlen,int flags){$/;"	f	class:checkret
+xbind	checkret.cc	/^int checkret::xbind(int fd, const struct sockaddr *addr, socklen_t len){$/;"	f	class:checkret
+xclose	checkret.cc	/^int checkret::xclose(int fd){$/;"	f	class:checkret
+xconnect	checkret.cc	/^int checkret::xconnect(int sock, sockaddr*addr,socklen_t len){$/;"	f	class:checkret
+xdup2	checkret.cc	/^int checkret::xdup2(int oldfd, int newfd) {$/;"	f	class:checkret
+xexit	checkret.cc	/^void checkret::xexit(int res){$/;"	f	class:checkret
+xfork	checkret.cc	/^int checkret::xfork(){$/;"	f	class:checkret
+xinet_aton	checkret.cc	/^int checkret::xinet_aton(const char *cp, struct in_addr *inp){$/;"	f	class:checkret
+xlisten	checkret.cc	/^int checkret::xlisten(int sock, int backlog){$/;"	f	class:checkret
+xmkdir	checkret.hh	/^  inline int xmkdir(const char *pathname, mode_t mode) $/;"	f	namespace:checkret
+xmkdirat	checkret.cc	/^void checkret::xmkdirat(int dirfd, const char *pathname, mode_t mode){$/;"	f	class:checkret
+xopenat	checkret.cc	/^int checkret::xopenat(int dirfd, const char *name, int flags,mode_t mode)$/;"	f	class:checkret
+xpipe	checkret.cc	/^void checkret::xpipe(int fds[2]) {$/;"	f	class:checkret
+xread	checkret.cc	/^int checkret::xread(int fd, char *const buf, size_t size,bool full){$/;"	f	class:checkret
+xsetsockopt	checkret.cc	/^int checkret::xsetsockopt(int sock, int proto, int flag, char *value, size_t size){$/;"	f	class:checkret
+xsleep	checkret.cc	/^int checkret::xsleep(int seconds){$/;"	f	class:checkret
+xsocket	checkret.cc	/^int checkret::xsocket(int family, int type, int prot){$/;"	f	class:checkret
+xwrite	checkret.cc	/^size_t checkret::xwrite(int fd, const char *const buf, size_t size, bool full) {$/;"	f	class:checkret
+xxwrite	checkret.cc	/^size_t xxwrite(int fd, const char *const buf, size_t size, bool full) {$/;"	f
