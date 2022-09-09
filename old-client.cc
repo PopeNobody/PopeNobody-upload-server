@@ -3,13 +3,15 @@
  */
 
 #include <errno.h>
-#include <stdio.h>
 #include <stdlib.h>
 #include <string.h>
 #include <sys/socket.h>
 #include <sys/un.h>
 #include <unistd.h>
 #include "connection.hh"
+#include "fd-path.hh"
+
+using checkret::pexit;
 
 int main(int argc, char *argv[])
 {
@@ -22,10 +24,8 @@ int main(int argc, char *argv[])
   /* Create local socket. */
 
   data_socket = socket(AF_UNIX, SOCK_SEQPACKET, 0);
-  if (data_socket == -1) {
-    perror("socket");
-    exit(EXIT_FAILURE);
-  }
+  if (data_socket == -1)
+    pexit(EXIT_FAILURE,"socket");
 
   /*
    * For portability clear the whole structure, since some
@@ -42,8 +42,9 @@ int main(int argc, char *argv[])
 
   ret = connect (data_socket, (const struct sockaddr *) &addr,
       sizeof(struct sockaddr_un));
+
   if (ret == -1) {
-    fprintf(stderr, "The server is down.\n");
+    dprintf(2, "The server is down.\n");
     exit(EXIT_FAILURE);
   }
 

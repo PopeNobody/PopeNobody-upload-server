@@ -3,7 +3,6 @@
 #include <fcntl.h>
 #include <netinet/in.h>
 #include <netinet/tcp.h>
-#include <stdio.h>
 #include <stdlib.h>
 #include <string>
 #include <string.h>

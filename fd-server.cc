@@ -1,14 +1,13 @@
 //#include "stderr.h"
 #include <sys/un.h>
 #include <fcntl.h>
-#include <stdio.h>
 #include <stdlib.h>
 #include <string.h>
 #include <sys/socket.h>
 #include <sys/wait.h>
 #include <time.h>
 #include <unistd.h>
-#include "fd-path.h"
+#include "fd-path.hh"
 #include "checkret.hh"
 
 using checkret::xopen;

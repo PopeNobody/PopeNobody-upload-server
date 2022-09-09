@@ -1,13 +1,14 @@
 //#include "stderr.h"
 #include <fcntl.h>
-#include <stdio.h>
 #include <stdlib.h>
 #include <string.h>
 #include <sys/socket.h>
 #include <sys/wait.h>
 #include <time.h>
 #include <unistd.h>
-#include "fd-path.h"
+#include "fd-path.hh"
+
+using namespace checkret;
 
 void err_remark(const char *msg){
   dprintf(2,"%s\n",msg);

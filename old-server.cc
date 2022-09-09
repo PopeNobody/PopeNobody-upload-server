@@ -2,14 +2,18 @@
  * File server.c
  */
 
-#include <stdio.h>
 #include <stdlib.h>
 #include <string.h>
 #include <sys/socket.h>
 #include <sys/un.h>
 #include <unistd.h>
 #include "connection.hh"
+#include "checkret.hh"
 
+using namespace checkret;
+bool forking() {
+  return false;
+};
 int main(int argc, char *argv[])
 {
   struct sockaddr_un name;
@@ -30,10 +34,8 @@ int main(int argc, char *argv[])
   /* Create local socket. */
 
   connection_socket = socket(AF_UNIX, SOCK_SEQPACKET, 0);
-  if (connection_socket == -1) {
-    perror("socket");
-    exit(EXIT_FAILURE);
-  }
+  if (connection_socket == -1)
+    pexit(EXIT_FAILURE,"socket");
 
   /*
    * For portability clear the whole structure, since some
@@ -48,12 +50,8 @@ int main(int argc, char *argv[])
   name.sun_family = AF_UNIX;
   strncpy(name.sun_path, SOCKET_NAME, sizeof(name.sun_path) - 1);
 
-  ret = bind(connection_socket, (const struct sockaddr *) &name,
+  ret = xbind(connection_socket, (const struct sockaddr *) &name,
       sizeof(struct sockaddr_un));
-  if (ret == -1) {
-    perror("bind");
-    exit(EXIT_FAILURE);
-  }
 
   /*
    * Prepare for accepting connections. The backlog size is set
@@ -61,11 +59,7 @@ int main(int argc, char *argv[])
    * can be waiting.
    */
 
-  ret = listen(connection_socket, 20);
-  if (ret == -1) {
-    perror("listen");
-    exit(EXIT_FAILURE);
-  }
+  ret = xlisten(connection_socket, 20);
 
   /* This is the main loop for handling connections. */
 
