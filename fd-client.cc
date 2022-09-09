@@ -94,7 +94,7 @@ int main(int argc, char **argv)
   ssize_t nbytes;
   while ((nbytes = read(fd, buffer, sizeof(buffer))) > 0)
     write(1, buffer, nbytes);
-  printf("Done!\n");
+  dprintf(2,"Done!\n");
   close(fd);
   return 0;
 }

@@ -9,6 +9,15 @@
 #include <time.h>
 #include <unistd.h>
 #include "fd-path.h"
+#include "checkret.hh"
+
+using checkret::xopen;
+using checkret::xlseek;
+using checkret::xclose;
+using checkret::xbind;
+using checkret::xlisten;
+using checkret::xaccept;
+
 
 void err_remark(const char *msg){
   dprintf(2,"%s\n",msg);
@@ -58,34 +67,35 @@ void wait_msg(int socket) {
   if (recvmsg(socket, &msg, 0) < 0)
     err_syserr("Failed to receive message\n");
 };
+bool forking() {
+  return false;
+};
 int main(int argc, char **argv)
 {
-  const char *filename = "./z7.c";
-
-  if (argc > 1)
-    filename = argv[1];
-
-  int fd = xopen(filename, O_RDONLY);
-
   int s = socket(AF_UNIX, SOCK_STREAM, 0);
   address_t sun = unix_path();
 
   unlink(sun.sun.sun_path); 
-  
-  xbind(s,sun,sizeof(sun))
+  xbind(s,sun,sizeof(sun));
 
-  if(listen(s,1))
-    pexit("listen");
+  xlisten(s,1);
+
   socklen_t size=sizeof(sun);
   while(true){
+    const char *filename = "./checkret.hh";
+
+    if (argc > 1)
+      filename = argv[1];
+
+    int fd = xopen(filename, O_RDONLY);
+
     int sock=xaccept(s,sun,&size);
 
     dprintf(2,"got connection\n");
 
-    xlseek(fd,0,SEEK_SET);
     wyslij(sock, fd);
+    xclose(fd);
   }
-  close(fd);
   struct timespec spec = { .tv_sec = 1, .tv_nsec = 500000000};
   nanosleep(&spec , 0);
   err_remark("Parent exits\n");

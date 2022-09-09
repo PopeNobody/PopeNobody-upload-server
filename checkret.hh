@@ -22,12 +22,18 @@ namespace checkret
 
 
   void xmkdirat(int dirfd, const char *pathname, mode_t mode);
-  int xopenat(int dirfd, const char *pathname, int flags, mode_t mode=0);
+  int xopenat(int dirfd, const char *pathname, int flags, mode_t mode=0777);
+  
+  inline int xopen(const char *pathname, int flags, mode_t mode=0777){
+    return xopenat(AT_FDCWD,pathname,flags,mode);
+  }
 
   int xsocket(int family, int type, int prot);
   int xbind(int fd, const struct sockaddr *addr, socklen_t len);
   void xexit(int res) __attribute__ ((noreturn));
-  
+
+  int xlseek(int fd, int off, int origin);
+
 //     int xexecve(const char *pathname,
 //         const char * argv[], char * envp[])
 //       __attribute__ ((noreturn));;

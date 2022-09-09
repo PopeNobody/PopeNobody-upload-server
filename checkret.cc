@@ -254,3 +254,9 @@ const char *checkret::now()
       gm.tm_hour,gm.tm_min,gm.tm_sec);
   return res.beg();
 };
+int checkret::xlseek(int fd, int off, int origin){
+  int res = lseek(fd,off,origin);
+  if(res==(off_t)-1)
+    pexit(16,"lseek");
+  return res;
+};
