@@ -8,3 +8,7 @@ dump
 out
 one_upload
 *.i
+fd-client
+fd-server
+old-client
+old-server
