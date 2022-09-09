@@ -3,7 +3,7 @@ MAKEFLAGS:=-rR
 LD=g++
 CXX=g++
 
-exes:= one_upload old-client old-server fd-client fd-server 
+exes:= upload old-client old-server fd-client fd-server 
 all: $(exes)
 
 CPPFLAGS :=
