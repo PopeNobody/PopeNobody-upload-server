@@ -20,8 +20,9 @@
 #ifndef _MD5_H
 #define _MD5_H 1
 
-#include <stdio.h>
+//   #include <stdio.h>
 #include <stdint.h>
+#include <stddef.h>
 
 # if HAVE_OPENSSL_MD5
 #  include <openssl/md5.h>
@@ -122,6 +123,7 @@ extern void *__md5_buffer (const char *buffer, size_t len,
                            void *resblock) __THROW;
 
 # endif
+#ifdef FILE
 /* Compute MD5 message digest for bytes read from STREAM.
    STREAM is an open file stream.  Regular files are handled more efficiently.
    The contents of STREAM from its current position to its end will be read.
@@ -129,6 +131,7 @@ extern void *__md5_buffer (const char *buffer, size_t len,
    The resulting message digest number will be written into the 16 bytes
    beginning at RESBLOCK.  */
 extern int __md5_stream (FILE *stream, void *resblock) __THROW;
+#endif
 
 
 # ifdef __cplusplus
