@@ -12,3 +12,4 @@ fd-client
 fd-server
 old-client
 old-server
+*.d
