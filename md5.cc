@@ -24,7 +24,7 @@
 #if HAVE_OPENSSL_MD5
 # define GL_OPENSSL_INLINE _GL_EXTERN_INLINE
 #endif
-#include "md5.h"
+#include "md5.hh"
 
 #include <stdalign.h>
 #include <stdint.h>
@@ -73,7 +73,7 @@ static const unsigned char fillbuf[64] = { 0x80, 0 /* , 0, 0, ...  */ };
 /* Initialize structure containing state of computation.
    (RFC 1321, 3.3: Step 3)  */
 void
-md5_init_ctx (struct md5_ctx *ctx)
+md5_init_ctx (struct md5_ctx *ctx) __THROW
 {
   ctx->A = 0x67452301;
   ctx->B = 0xefcdab89;
@@ -96,9 +96,9 @@ set_uint32 (char *cp, uint32_t v)
 /* Put result from CTX in first 16 bytes following RESBUF.  The result
    must be in little endian byte order.  */
 void *
-md5_read_ctx (const struct md5_ctx *ctx, void *resbuf)
+md5_read_ctx (const struct md5_ctx *ctx, void *resbuf) __THROW
 {
-  char *r = resbuf;
+  char *r = (char*)resbuf;
   set_uint32 (r + 0 * sizeof ctx->A, SWAP (ctx->A));
   set_uint32 (r + 1 * sizeof ctx->B, SWAP (ctx->B));
   set_uint32 (r + 2 * sizeof ctx->C, SWAP (ctx->C));
@@ -110,7 +110,7 @@ md5_read_ctx (const struct md5_ctx *ctx, void *resbuf)
 /* Process the remaining bytes in the internal buffer and the usual
    prolog according to the standard and write the result to RESBUF.  */
 void *
-md5_finish_ctx (struct md5_ctx *ctx, void *resbuf)
+md5_finish_ctx (struct md5_ctx *ctx, void *resbuf) __THROW
 {
   /* Take yet unprocessed bytes into account.  */
   uint32_t bytes = ctx->buflen;
@@ -225,7 +225,7 @@ process_partial_block:
    digest.  */
 #ifndef INSANE
 void *
-md5_buffer (const char *buffer, size_t len, void *resblock)
+md5_buffer (const char *buffer, size_t len, void *resblock) __THROW
 {
   struct md5_ctx ctx;
 
@@ -260,7 +260,7 @@ md5_buffer (const char *buffer, size_t len, void *resblock)
 
 
 void
-md5_process_bytes (const void *buffer, size_t len, struct md5_ctx *ctx)
+md5_process_bytes (const void *buffer, size_t len, struct md5_ctx *ctx) __THROW
 {
   /* When we already have some bits in our internal buffer concatenate
      both inputs first.  */
@@ -342,10 +342,10 @@ md5_process_bytes (const void *buffer, size_t len, struct md5_ctx *ctx)
    It is assumed that LEN % 64 == 0.  */
 
 void
-md5_process_block (const void *buffer, size_t len, struct md5_ctx *ctx)
+md5_process_block (const void *buffer, size_t len, struct md5_ctx *ctx) __THROW
 {
   uint32_t correct_words[16];
-  const uint32_t *words = buffer;
+  const uint32_t *words = (const uint32_t *)buffer;
   size_t nwords = len / sizeof (uint32_t);
   const uint32_t *endp = words + nwords;
   uint32_t A = ctx->A;
