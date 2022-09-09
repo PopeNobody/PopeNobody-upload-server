@@ -105,6 +105,9 @@ namespace checkret
     perror(msg);
     exit(ret);
   };
+  inline int pexit(const char *msg) {
+    return pexit(EXIT_FAILURE,msg);
+  };
   const char *now();
 }
 

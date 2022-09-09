@@ -6,7 +6,7 @@ CXX=g++
 exes:=recv send dump one_upload old-client old-server fd-client fd-server 
 all: $(exes)
 
-CPPFLAGS := -ggdb3 -I . -I .
+CPPFLAGS := -MD -ggdb3 -I . -I .
 export CPPFLAGS
 export LDFLAGS
 export CFLAGS

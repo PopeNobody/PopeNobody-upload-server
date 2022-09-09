@@ -3,6 +3,8 @@
 
 #include <sys/un.h>
 #include <sys/socket.h>
+#include <stdlib.h>
+#include "checkret.hh"
 
 union address_t {
   sockaddr_un sun;
@@ -14,9 +16,5 @@ union address_t {
 
 extern address_t unix_path();
 
-inline int pexit(const char *msg) {
-  perror(msg);
-  exit(1);
-};
 
 #endif
