@@ -34,10 +34,22 @@ void sigchild(int arg){
 };
 int main(int argc, char**argv){
   int port=0;
+  bool usage=false;
   if(argc!=2) {
+    usage=true;
+  }
+  if(!usage){
+    for(char *cp=argv[1];*cp;cp++){
+      if(*cp<'0' || *cp>'9') {
+        usage=true;
+        break;
+      };
+    };
+  }
+  if(usage){
     dprintf(2,"usage: %s <port>\n",argv[0]);
     exit(1);
-  }
+  };
   port=atoi(argv[1]);
   signal(SIGCHLD, &sigchild);
   ifd=bind_and_accept("0.0.0.0",port);
