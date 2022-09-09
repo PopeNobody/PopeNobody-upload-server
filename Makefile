@@ -3,7 +3,7 @@ MAKEFLAGS:=-rR
 LD=g++
 CXX=g++
 
-exes:=recv send dump one_upload old-client old-server fd-client fd-server 
+exes:= one_upload old-client old-server fd-client fd-server 
 all: $(exes)
 
 CPPFLAGS := -MD -ggdb3 -I . -I .
