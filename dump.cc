@@ -38,7 +38,7 @@ int main(int argc, char**argv){
   while(true){
     fixed_buf<60> fn_buf;
     filename(fn_buf);
-    xmkdir("upload",0777);
+    mkdirat(AT_FDCWD,"upload",0777);
     int ofd=xopenat(AT_FDCWD,fn_buf.buf,O_CREAT|O_WRONLY|O_EXCL,0666);
     while(true){
       size_t rlen=xread(ifd,buf,sizeof(buf));

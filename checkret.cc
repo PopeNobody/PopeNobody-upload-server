@@ -13,10 +13,13 @@
 #include <unistd.h>
 #include "fixed_buf.hh"
 #include "checkret.hh"
+#include "unixpp.hh"
+
 #define announce() 
 //dprintf(2,"%s:%d:%s\n",__FILE__,__LINE__,__PRETTY_FUNCTION__);
 
 using namespace checkret;
+using unixpp::range_t;
 
 int checkret::xbind(int fd, const struct sockaddr *addr, socklen_t len){
   announce();
@@ -227,8 +230,25 @@ void checkret::xpipe(int fds[2]) {
     pexit(13,"pipe");
 };
 void checkret::xmkdirat(int dirfd, const char *pathname, mode_t mode){
-  if(mkdirat(dirfd,pathname,mode))
-    pexit(14,"mkdir");
+  if(!mkdirat(dirfd,pathname,mode))
+    return;
+  pexit(14,"mkdirat");
+};
+void checkret::xlink(const char *oldpath, const char *newpath){
+  if(!link(oldpath,newpath))
+    return;
+  pexit(17,"link");
+};
+void checkret::xunlinkat(int dirfd, const char *path, int flags) {
+  if(unlinkat(dirfd,path,flags))
+    pexit(16,"unlinkat");
+}
+void checkret::xlinkat(int olddirfd, const char *oldpath,
+    int newdirfd, const char *newpath, int flags)
+{
+  if(!linkat(olddirfd,oldpath,newdirfd,newpath,flags)) 
+    return;
+  pexit(18,"linkat");
 };
 const char *checkret::now()
 {
@@ -254,11 +274,9 @@ void checkret::xmunmap(void *addr, size_t length){
   if(munmap(addr,length))
     pexit(1,"munmap");
 };
-itr_pair_t checkret::xmmap_file(const char*fname) {
-  itr_pair_t res;
-  int fd=xopenat(AT_FDCWD,fname,O_RDONLY);
-  size_t size=lseek(fd,0,SEEK_END);
-  res.beg=(const char*)xmmap(0,size,PROT_READ,MAP_PRIVATE,fd,0);
-  res.end=res.beg+size;
-  return res;
-};
+
+int checkret::xfstatat (int fd, const char *file, struct stat *buf, int flag);
+int checkret::xfchmodat (int fd, const char *file, mode_t mode, int flag);
+int checkret::xmknodat (int fd, const char *path, mode_t mode, dev_t dev);
+int checkret::xmkfifoat (int fd, const char *path, mode_t mode);
+int checkret::xutimensat (int fd, const char *path, const struct timespec times[2], int flags);

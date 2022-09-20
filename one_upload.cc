@@ -1,12 +1,17 @@
 #include "checkret.hh"
+#include "util.hh"
 #include "fixed_buf.hh"
 #include <fcntl.h>
 #include "md5.h"
+#include "md5.hh"
 #include <sys/signal.h>
 #include <wait.h>
+#include "unixpp.hh"
 
 using namespace checkret;
-
+using unixpp::range_t;
+using unixpp::xmmap_file;
+using std::string;
 extern "C" {
   int dprintf(int, const char *, ...);
   int atoi(const char *);
@@ -32,29 +37,6 @@ void sigchild(int arg){
   dprintf(1,"wait_nohang(&wstat)=>%d\n", wait_nohang(&wstat));
   dprintf(1,"             wstat =>%d\n", wstat);
 };
-#include <magic.h>
-void show_magic(const char *fname) {
-  int argc=10;
-  char **argv=(char**)&fname;
-  magic_t cookie=magic_open(MAGIC_ERROR);
-  magic_load(cookie,"/usr/lib/file/magic.mgc");
-  dprintf(2,"%d: %s\n",magic_errno(cookie), magic_error(cookie));
-  if(magic_errno(cookie)){
-    dprintf(2,"%d: %s\n",magic_errno(cookie),magic_error(cookie));
-    exit(1);
-  };
-  int null=xopenat(AT_FDCWD,"/dev/null",O_RDONLY);
-  dup2(null,0);
-  for(int i=1;i<argc;i++){
-    int fd=xopenat(AT_FDCWD,argv[i],O_RDONLY);
-    dup2(fd,0);
-    close(fd);
-    const char *desc=magic_file(cookie,0);
-    dprintf(1,"%s\n",argv[i]);
-    dprintf(1,"%s\n",desc);
-    dup2(null,0);
-  };
-};
 int main(int argc, char**argv){
   int port=0;
   if(argc!=2) {
@@ -65,55 +47,39 @@ int main(int argc, char**argv){
   port=atoi(argv[1]);
   signal(SIGCHLD, &sigchild);
   ifd=bind_and_accept("0.0.0.0",port);
+  fixed_buf<60> fn_buf;
+  filename(fn_buf);
+  mkdirat(AT_FDCWD,"upload",0777);
+  int ofd=xopenat(AT_FDCWD,fn_buf.buf,O_CREAT|O_WRONLY|O_EXCL,0666);
   while(true){
-    fixed_buf<60> fn_buf;
-    filename(fn_buf);
-    xmkdir("upload",0777);
-    int ofd=xopenat(AT_FDCWD,fn_buf.buf,O_CREAT|O_WRONLY|O_EXCL,0666);
-    while(true){
-      size_t rlen=xread(ifd,buf,sizeof(buf));
-      const char *beg(buf);
-      const char *end=beg+rlen;
-      total+=rlen;
-      if(beg==end)
-        break;
-      while(beg<end)
-        beg+=xwrite(ofd,beg,end-beg);
-    };
-    dprintf(2,"%s: wrote %lu bytes to %s\n",now(),total,fn_buf.buf);
-    xclose(2);
-    dprintf(ifd,"%s: wrote %lu bytes to %s\n",now(),total,fn_buf.buf);
-    xclose(ifd);
-  //  magic_t cookie=magic_open(MAGIC_ERROR);
-   // magic_list(cookie,"/usr/lib/file/magic.mgc");
-    magic_t mime=magic_open(MAGIC_ERROR|MAGIC_MIME);
-    magic_load(mime,0);
-
-    dprintf(1,"file: %s\n", fn_buf.buf);
-    char *text;
-    text=strdup(magic_file(mime,fn_buf.buf));
-    char *pos=text;
-    while(1) {
-      if(*pos==';')
-        *pos=0;
-      if(!*pos)
-        break;
-      ++pos;
-    };
-      
-    dprintf(1,"mime: %s\n", text);
-    itr_pair_t pair=xmmap_file(fn_buf.buf);
-    char resbuf[32];
-    md5_ctx ctx;
-    md5_init_ctx(&ctx);
-    dprintf(1,"size: %ld\n", pair.end-pair.beg);
-    md5_process_bytes( pair.beg,pair.end-pair.beg,&ctx);
-    md5_finish_ctx(&ctx,&resbuf);
-    dprintf(1,"md5s: ");
-    for(int i=0;i<16;i++){
-      dprintf(1,"%02x",resbuf[i]&0xff);
-    };
-    dprintf(1,"\n");
-    return 0;
+    size_t rlen=xread(ifd,buf,sizeof(buf));
+    const char *beg(buf);
+    const char *end=beg+rlen;
+    total+=rlen;
+    if(beg==end)
+      break;
+    while(beg<end)
+      beg+=xwrite(ofd,beg,end-beg);
   };
-};
+  xclose(ifd);
+
+  range_t file=xmmap_file(fn_buf.buf);
+  string md5sum=unixpp::md5sum(file);
+  string ext = unixpp::magic_ext(file);
+  string filename="avatar."+md5sum+"."+ext;
+
+  string output="{ \"filename\": \"";
+  output += filename;
+  output += "\",\"md5\": \"";
+  output += md5sum;
+  output += "\",\"mime\": \"";
+  output += unixpp::magic_mime(file);
+  output += "\",\"ext\": \"";
+  output += ext;
+  output += "\"}";
+  dprintf(1,"%s\n",output.c_str());
+  filename="upload/"+filename;
+  xlink(fn_buf.buf,filename.c_str());
+  xunlink(fn_buf.buf);
+  return 0;
+}
