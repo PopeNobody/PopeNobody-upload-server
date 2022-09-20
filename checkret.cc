@@ -4,7 +4,6 @@
 #include <fcntl.h>
 #include <netinet/in.h>
 #include <netinet/tcp.h>
-#include <stdio.h>
 #include <stdlib.h>
 #include <string>
 #include <string.h>
@@ -262,6 +261,7 @@ const char *checkret::now()
       gm.tm_hour,gm.tm_min,gm.tm_sec);
   return res.beg();
 };
+<<<<<<< HEAD
 void *checkret::xmmap(void *addr, size_t length, int prot, int flags,
     int fd, off_t offset)
 {
@@ -280,3 +280,11 @@ int checkret::xfchmodat (int fd, const char *file, mode_t mode, int flag);
 int checkret::xmknodat (int fd, const char *path, mode_t mode, dev_t dev);
 int checkret::xmkfifoat (int fd, const char *path, mode_t mode);
 int checkret::xutimensat (int fd, const char *path, const struct timespec times[2], int flags);
+=======
+int checkret::xlseek(int fd, int off, int origin){
+  int res = lseek(fd,off,origin);
+  if(res==(off_t)-1)
+    pexit(16,"lseek");
+  return res;
+};
+>>>>>>> 9899ab75c0e6f772679c18c88f8a140ffb9a7eb0

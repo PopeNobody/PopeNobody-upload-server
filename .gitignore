@@ -7,6 +7,16 @@ dump
 
 out
 one_upload
+<<<<<<< HEAD
 *.ii
 *.oo
 
+=======
+*.i
+fd-client
+fd-server
+old-client
+old-server
+*.d
+upload
+>>>>>>> 9899ab75c0e6f772679c18c88f8a140ffb9a7eb0

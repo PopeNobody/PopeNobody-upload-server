@@ -3,12 +3,17 @@ MAKEFLAGS:=-rR -j
 LD=g++
 CXX=g++
 
+<<<<<<< HEAD
+=======
+exes:= upload old-client old-server fd-client fd-server 
+all: $(exes)
+>>>>>>> 9899ab75c0e6f772679c18c88f8a140ffb9a7eb0
 
-CPPFLAGS := -ggdb3 -I . -I .
-export CPPFLAGS
-export LDFLAGS
-export CFLAGS
+CPPFLAGS :=
+LDFLAGS :=
+CFLAGS :=
 
+<<<<<<< HEAD
 allsrc:=$(wildcard *.cc *.c)
 
 exeexe:= recv send dump one_upload
@@ -26,18 +31,30 @@ all: $(exeexe)
 #$(warning libsrc:=$(libsrc))
 
 libsimp.a: $(libobj)
+=======
+libsimp.a: checkret.o fixed_buf.o md5.o fd-path.o md5.o
+>>>>>>> 9899ab75c0e6f772679c18c88f8a140ffb9a7eb0
 	ar -r $@ $?
 
 .PRECIOUS: $(liball) $(exeall)
 
+<<<<<<< HEAD
 $(exeexe): %: %.oo libsimp.a ldflags
+=======
+$(exes): %: %.o libsimp.a ldflags
+>>>>>>> 9899ab75c0e6f772679c18c88f8a140ffb9a7eb0
 	g++ -o $@ $< $(shell cat ldflags)
 
 
-md5.o: md5.c md5.h config.h cflags
-	gcc -o $@ $< -c $(shell cat cflags)
+%.i: %.cc checkret.hh fixed_buf.hh cppflags cflags
+	g++ -o $@ $< -E $(shell cat cppflags)
 
+<<<<<<< HEAD
 %.oo: %.ii cppflags
+=======
+
+%.o: %.cc checkret.hh fixed_buf.hh cppflags cflags
+>>>>>>> 9899ab75c0e6f772679c18c88f8a140ffb9a7eb0
 	g++ -o $@ $< -c $(shell cat cppflags)
 
 %.ii: %.cc $(wildcard *.hh) cppflags
@@ -45,5 +62,11 @@ md5.o: md5.c md5.h config.h cflags
 
 
 clean:
+<<<<<<< HEAD
 	rm -f *.oo *.a recv send
 	rm -fr log
+=======
+	rm -f *.o *.a $(exes) log
+
+include /dev/null $(wildcard *.d)
+>>>>>>> 9899ab75c0e6f772679c18c88f8a140ffb9a7eb0

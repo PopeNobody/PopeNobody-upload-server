@@ -37,8 +37,16 @@ namespace checkret
 
   void xmkdirp(const char *pathname, mode_t mode);
   void xmkdirat(int dirfd, const char *pathname, mode_t mode);
+<<<<<<< HEAD
 
   int xopenat(int dirfd, const char *pathname, int flags, mode_t mode=0);
+=======
+  int xopenat(int dirfd, const char *pathname, int flags, mode_t mode=0777);
+  
+  inline int xopen(const char *pathname, int flags, mode_t mode=0777){
+    return xopenat(AT_FDCWD,pathname,flags,mode);
+  }
+>>>>>>> 9899ab75c0e6f772679c18c88f8a140ffb9a7eb0
 
   int xsocket(int family, int type, int prot);
 
@@ -46,7 +54,35 @@ namespace checkret
 
   void xexit(int res) __attribute__ ((noreturn));
 
+<<<<<<< HEAD
 
+=======
+  int xlseek(int fd, int off, int origin);
+
+//     int xexecve(const char *pathname,
+//         const char * argv[], char * envp[])
+//       __attribute__ ((noreturn));;
+//     
+//     int xexecve(const char *pathname,
+//         const char * argv[], char *const envp[])
+//     ;
+//     int execve(const char *pathname, char *const argv[],
+//         char *const envp[]);
+
+// missing in action  
+//  int xexecveat(int dirfd, const char *pathname,
+//      char *const argv[], char *const envp[],
+//      int flags);
+  
+  //          int execlp(const char *file, const char *arg, ...
+  //   		       /* (char  *) NULL */);
+  //          int execle(const char *pathname, const char *arg, ...
+  //   		       /*, (char *) NULL, char *const envp[] */);
+  //          int execv(const char *pathname, char *const argv[]);
+  //          int execvp(const char *file, char *const argv[]);
+  //          int execvpe(const char *file, char *const argv[],
+  //   		       char *const envp[]);
+>>>>>>> 9899ab75c0e6f772679c18c88f8a140ffb9a7eb0
   int xinet_aton(const char *cp, struct in_addr *inp);
   int xlisten(int sock, int backlog);
   int xaccept(int sock, sockaddr *addr, socklen_t *addrlen);
@@ -112,6 +148,9 @@ namespace checkret
   inline int pexit(int ret,const char *msg){
     perror(msg);
     exit(ret);
+  };
+  inline int pexit(const char *msg) {
+    return pexit(EXIT_FAILURE,msg);
   };
   const char *now();
 

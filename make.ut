@@ -1,0 +1,711 @@
+g++ -o recv recv.oo  -L.  ./libmagic/file-5.41/src/.libs/libmagic.a -lsimp -static -llzma -lbz2 -lz 
+g++ -o send send.oo  -L.  ./libmagic/file-5.41/src/.libs/libmagic.a -lsimp -static -llzma -lbz2 -lz 
+# GNU Make 4.3
+# Built for x86_64-pc-linux-gnu
+# Copyright (C) 1988-2020 Free Software Foundation, Inc.
+# License GPLv3+: GNU GPL version 3 or later <http://gnu.org/licenses/gpl.html>
+# This is free software: you are free to change and redistribute it.
+# There is NO WARRANTY, to the extent permitted by law.
+
+# Make data base, printed on Tue Sep  6 06:25:12 2022
+
+# Variables
+
+# environment
+SSH_TTY = /dev/pts/9
+# makefile (from 'Makefile', line 12)
+allsrc := checkret.cc dump.cc fixed_buf.cc magic.cc md5.cc one_upload.cc recv.cc send.cc unixpp.cc md5.c
+# environment
+TMPDIR = /home/parse/tmp
+# environment
+GPG_TTY = /dev/pts/9
+# default
+MAKE_COMMAND := make
+# automatic
+@D = $(patsubst %/,%,$(dir $@))
+# default
+.VARIABLES := 
+# environment
+PWD = /home/parse/src/simple_demo_for_lisa
+# automatic
+%D = $(patsubst %/,%,$(dir $%))
+# environment
+OLDPWD = /home/parse
+# automatic
+^D = $(patsubst %/,%,$(dir $^))
+# automatic
+%F = $(notdir $%)
+# makefile (from 'Makefile', line 18)
+exeall := recv.cc send.cc dump.cc one_upload.cc recv.oo send.oo dump.oo one_upload.oo recv.ii send.ii dump.ii one_upload.ii
+# environment
+LANG = en_US.UTF-8
+# default
+.LOADED := 
+# environment
+TMP = /home/parse/tmp
+# default
+.INCLUDE_DIRS = /usr/local/include /usr/include /usr/include
+# makefile
+MAKEFLAGS = prR -j
+# environment
+PKG_CONFIG_PATH = 
+# makefile
+CURDIR := /home/parse/src/simple_demo_for_lisa
+# environment
+LESSOPEN = | /usr/bin/lesspipe %s
+# automatic
+*D = $(patsubst %/,%,$(dir $*))
+# environment
+MFLAGS = -prR -j
+# environment
+SSH_AUTH_SOCK = /tmp/ssh-XXXX6wsSNx/agent.490367
+# default
+.SHELLFLAGS := -c
+# automatic
++D = $(patsubst %/,%,$(dir $+))
+# makefile (from 'Makefile', line 1)
+MAKEFILE_LIST := Makefile
+# automatic
+@F = $(notdir $@)
+# environment
+XDG_SESSION_TYPE = tty
+# automatic
+?D = $(patsubst %/,%,$(dir $?))
+# makefile (from 'Makefile', line 15)
+exesrc := recv.cc send.cc dump.cc one_upload.cc
+# automatic
+*F = $(notdir $*)
+# makefile (from 'Makefile', line 22)
+libcpp := checkret.ii fixed_buf.ii magic.ii md5.ii unixpp.ii md5.c
+# makefile (from 'Makefile', line 23)
+liball := checkret.cc fixed_buf.cc magic.cc md5.cc unixpp.cc md5.c checkret.oo fixed_buf.oo magic.oo md5.oo unixpp.oo md5.c checkret.ii fixed_buf.ii magic.ii md5.ii unixpp.ii md5.c
+# environment
+DBUS_SESSION_BUS_ADDRESS = unix:path=/run/user/777/bus
+# makefile (from 'Makefile', line 14)
+exeexe := recv send dump one_upload
+# automatic
+<D = $(patsubst %/,%,$(dir $<))
+# default
+MAKE_HOST := x86_64-pc-linux-gnu
+# makefile
+SHELL = /bin/sh
+# environment
+define BASH_FUNC_uniq_path%%
+() {  (($#-1)) && echo "uniq_path [varname]" 1>&2 && return 1;
+ local -n name="$1";
+ shift;
+ set -- $(IFS=:; echo ${name});
+ local -i n=$# i=0;
+ local -A seen=();
+ for ((i=1; i<=n; i++))
+ do
+ local dir="$1/";
+ shift;
+ test -d "$dir" || continue;
+ dir=$(cd "$dir"; echo "$PWD");
+ fid=$(stat "$dir/" -c "%D:%i");
+ if test -z "${seen[$fid]}"; then
+ seen[$fid]=true;
+ set -- "$@" "$dir";
+ fi;
+ done;
+ (( n-$# )) && tty -s && echo "removed $((n-$#)) parts" 1>&2;
+ name="$(IFS=:; echo "$*")";
+ return 0
+}
+endef
+# environment
+SHLVL = 1
+# environment
+GCC_COLORS = error=01;31:warning=01;35:note=01;36:caret=01;32:locus=01:quote=01
+# environment
+MAKELEVEL := 0
+# default
+MAKE = $(MAKE_COMMAND)
+# environment
+PATH = /home/parse/bin:/opt/bin:/usr/local/sbin:/usr/local/bin:/usr/sbin:/usr/bin:/usr/games
+# default
+MAKEFILES := 
+# environment
+MOTD_SHOWN = pam
+# automatic
+^F = $(notdir $^)
+# environment
+define BASH_FUNC_goto%%
+() {  local dest="$_";
+ test -z "$1" || dest="$1";
+ if test -z "$dest"; then
+ tty_say "gotta tell me where.";
+ return 1;
+ fi;
+ test -d "$dest" || dest="$(dirname "$dest")";
+ echo goto "$dest" 1>&2;
+ cd "$dest"
+}
+endef
+# environment
+SSH_CLIENT = 74.75.88.128 56854 22
+# environment
+LINES = 38
+# environment
+LESSCLOSE = /usr/bin/lesspipe %s %s
+# automatic
+?F = $(notdir $?)
+# automatic
++F = $(notdir $+)
+# 'override' directive
+GNUMAKEFLAGS := 
+# environment
+LOGNAME = parse
+# makefile (from 'Makefile', line 7)
+CPPFLAGS := -ggdb3 -I . -I .
+# makefile
+.DEFAULT_GOAL := all
+# environment
+EDITOR = vim
+# environment
+USER = parse
+# default
+MAKE_VERSION := 4.3
+# makefile (from 'Makefile', line 21)
+libobj := checkret.oo fixed_buf.oo magic.oo md5.oo unixpp.oo md5.c
+# makefile (from 'Makefile', line 9)
+LDFLAGS := 
+# environment
+PAGER = less -S
+# environment
+_ = /usr/bin/make
+# environment
+XDG_RUNTIME_DIR = /run/user/777
+# makefile (from 'Makefile', line 10)
+CFLAGS := 
+# environment
+VISUAL = vim
+# default
+MAKE_TERMERR := /dev/pts/9
+# environment
+XDG_SESSION_CLASS = user
+# makefile (from 'Makefile', line 16)
+exeobj := recv.oo send.oo dump.oo one_upload.oo
+# environment
+HOME = /home/parse
+# environment
+TERM = tmux-256color
+# environment
+TEMP = /home/parse/tmp
+# environment
+XDG_SESSION_ID = 3524
+# default
+.RECIPEPREFIX := 
+# automatic
+<F = $(notdir $<)
+# makefile (from 'Makefile', line 17)
+execpp := recv.ii send.ii dump.ii one_upload.ii
+# environment
+COLUMNS = 147
+# makefile (from 'Makefile', line 20)
+libsrc := checkret.cc fixed_buf.cc magic.cc md5.cc unixpp.cc md5.c
+# default
+SUFFIXES := 
+# makefile (from 'Makefile', line 3)
+LD = g++
+# default
+.FEATURES := target-specific order-only second-expansion else-if shortest-stem undefine oneshell nocomment grouped-target extra-prereqs archives jobserver output-sync check-symlink load
+# makefile (from 'Makefile', line 4)
+CXX = g++
+# environment
+SSH_CONNECTION = 74.75.88.128 56854 172.31.27.116 22
+# variable set hash-table stats:
+# Load=85/1024=8%, Rehash=0, Collisions=23/278=8%
+
+# Pattern-specific Variable Values
+
+# No pattern-specific variable values.
+
+# Directories
+
+# . (device 51713, inode 806077): 66 files, no impossibilities.
+
+# 66 files, no impossibilities in 1 directories.
+
+# Implicit Rules
+
+%.oo: %.ii cppflags
+#  recipe to execute (from 'Makefile', line 41):
+	g++ -o $@ $< -c $(shell cat cppflags)
+
+%.ii: %.cc checkret.hh fixed_buf.hh md5.hh unixpp.hh util.hh cppflags
+#  recipe to execute (from 'Makefile', line 44):
+	g++ -o $@ $< -E $(shell cat cppflags)
+
+# 2 implicit rules, 0 (0.0%) terminal.
+# Files
+
+unixpp.oo: unixpp.ii cppflags
+#  Precious file (prerequisite of .PRECIOUS).
+#  Implicit rule search has been done.
+#  Implicit/static pattern stem: 'unixpp'
+#  Last modified 2022-09-06 06:23:18.458208806
+#  File has been updated.
+#  Successfully updated.
+#  recipe to execute (from 'Makefile', line 41):
+	g++ -o $@ $< -c $(shell cat cppflags)
+
+md5.ii: md5.cc checkret.hh fixed_buf.hh md5.hh unixpp.hh util.hh cppflags
+#  Precious file (prerequisite of .PRECIOUS).
+#  Implicit rule search has been done.
+#  Implicit/static pattern stem: 'md5'
+#  Last modified 2022-09-06 06:23:15.578199354
+#  File has been updated.
+#  Successfully updated.
+#  recipe to execute (from 'Makefile', line 44):
+	g++ -o $@ $< -E $(shell cat cppflags)
+
+send.oo: send.ii cppflags
+#  Precious file (prerequisite of .PRECIOUS).
+#  Implicit rule search has been done.
+#  Implicit/static pattern stem: 'send'
+#  Last modified 2022-09-06 06:23:18.486208898
+#  File has been updated.
+#  Successfully updated.
+#  recipe to execute (from 'Makefile', line 41):
+	g++ -o $@ $< -c $(shell cat cppflags)
+
+# Not a target:
+one_upload.cc:
+#  Precious file (prerequisite of .PRECIOUS).
+#  Implicit rule search has been done.
+#  Last modified 2022-09-06 06:18:50.305175599
+#  File has been updated.
+#  Successfully updated.
+
+# Not a target:
+checkret.cc:
+#  Precious file (prerequisite of .PRECIOUS).
+#  Implicit rule search has been done.
+#  Last modified 2022-09-06 06:09:57.028123322
+#  File has been updated.
+#  Successfully updated.
+
+md5.oo: md5.ii cppflags
+#  Precious file (prerequisite of .PRECIOUS).
+#  Implicit rule search has been done.
+#  Implicit/static pattern stem: 'md5'
+#  Last modified 2022-09-06 06:23:16.754203218
+#  File has been updated.
+#  Successfully updated.
+#  recipe to execute (from 'Makefile', line 41):
+	g++ -o $@ $< -c $(shell cat cppflags)
+
+dump: dump.oo libsimp.a ldflags
+#  Implicit rule search has not been done.
+#  Implicit/static pattern stem: 'dump'
+#  Last modified 2022-09-06 06:24:29.114431786
+#  File has been updated.
+#  Successfully updated.
+#  recipe to execute (from 'Makefile', line 34):
+	g++ -o $@ $< $(shell cat ldflags)
+
+libsimp.a: checkret.oo fixed_buf.oo magic.oo md5.oo unixpp.oo md5.c
+#  Implicit rule search has not been done.
+#  Last modified 2022-09-06 06:24:28.418429669
+#  File has been updated.
+#  Successfully updated.
+#  recipe to execute (from 'Makefile', line 29):
+	ar -r $@ $?
+
+send.ii: send.cc checkret.hh fixed_buf.hh md5.hh unixpp.hh util.hh cppflags
+#  Precious file (prerequisite of .PRECIOUS).
+#  Implicit rule search has been done.
+#  Implicit/static pattern stem: 'send'
+#  Last modified 2022-09-06 06:23:16.070200971
+#  File has been updated.
+#  Successfully updated.
+#  recipe to execute (from 'Makefile', line 44):
+	g++ -o $@ $< -E $(shell cat cppflags)
+
+.PRECIOUS: checkret.cc fixed_buf.cc magic.cc md5.cc unixpp.cc md5.c checkret.oo fixed_buf.oo magic.oo md5.oo unixpp.oo md5.c checkret.ii fixed_buf.ii magic.ii md5.ii unixpp.ii md5.c recv.cc send.cc dump.cc one_upload.cc recv.oo send.oo dump.oo one_upload.oo recv.ii send.ii dump.ii one_upload.ii
+#  Implicit rule search has not been done.
+#  Modification time never checked.
+#  File has not been updated.
+
+# Not a target:
+Makefile:
+#  Implicit rule search has been done.
+#  Last modified 2022-09-06 06:24:28.362429499
+#  File has been updated.
+#  Successfully updated.
+
+# Not a target:
+md5.c:
+#  Precious file (prerequisite of .PRECIOUS).
+#  Implicit rule search has been done.
+#  Last modified 2022-07-05 17:13:29.472477687
+#  File has been updated.
+#  Successfully updated.
+
+fixed_buf.oo: fixed_buf.ii cppflags
+#  Precious file (prerequisite of .PRECIOUS).
+#  Implicit rule search has been done.
+#  Implicit/static pattern stem: 'fixed_buf'
+#  Last modified 2022-09-06 06:23:16.026200827
+#  File has been updated.
+#  Successfully updated.
+#  recipe to execute (from 'Makefile', line 41):
+	g++ -o $@ $< -c $(shell cat cppflags)
+
+unixpp.ii: unixpp.cc checkret.hh fixed_buf.hh md5.hh unixpp.hh util.hh cppflags
+#  Precious file (prerequisite of .PRECIOUS).
+#  Implicit rule search has been done.
+#  Implicit/static pattern stem: 'unixpp'
+#  Last modified 2022-09-06 06:23:16.098201063
+#  File has been updated.
+#  Successfully updated.
+#  recipe to execute (from 'Makefile', line 44):
+	g++ -o $@ $< -E $(shell cat cppflags)
+
+md5.o: md5.c md5.h config.h cflags
+#  Implicit rule search has not been done.
+#  Modification time never checked.
+#  File has not been updated.
+#  recipe to execute (from 'Makefile', line 38):
+	gcc -o $@ $< -c $(shell cat cflags)
+
+clean:
+#  Implicit rule search has not been done.
+#  Modification time never checked.
+#  File has not been updated.
+#  recipe to execute (from 'Makefile', line 48):
+	rm -f *.oo *.a recv send
+	rm -fr log
+
+# Not a target:
+md5.hh:
+#  Implicit rule search has been done.
+#  Last modified 2022-09-06 06:22:10.369977018
+#  File has been updated.
+#  Successfully updated.
+
+# Not a target:
+unixpp.hh:
+#  Implicit rule search has been done.
+#  Last modified 2022-09-06 06:22:10.369977018
+#  File has been updated.
+#  Successfully updated.
+
+# Not a target:
+cppflags:
+#  Implicit rule search has been done.
+#  Last modified 2022-09-04 21:13:53.438694227
+#  File has been updated.
+#  Successfully updated.
+
+# 'override' directive
+recv: .SHELLSTATUS := 0
+recv: recv.oo libsimp.a ldflags
+#  Implicit rule search has not been done.
+#  Implicit/static pattern stem: 'recv'
+#  Modification time never checked.
+#  File has been updated.
+#  Failed to be updated.
+# automatic
+# @ := recv
+# automatic
+# * := recv
+# automatic
+# < := recv.oo
+# automatic
+# + := recv.oo libsimp.a ldflags
+# automatic
+# % := 
+# automatic
+# ^ := recv.oo libsimp.a ldflags
+# automatic
+# ? := recv.oo libsimp.a ldflags
+# automatic
+# | := 
+# variable set hash-table stats:
+# Load=9/32=28%, Rehash=0, Collisions=1/17=6%
+#  recipe to execute (from 'Makefile', line 34):
+	g++ -o $@ $< $(shell cat ldflags)
+
+checkret.oo: checkret.ii cppflags
+#  Precious file (prerequisite of .PRECIOUS).
+#  Implicit rule search has been done.
+#  Implicit/static pattern stem: 'checkret'
+#  Last modified 2022-09-06 06:23:18.526209029
+#  File has been updated.
+#  Successfully updated.
+#  recipe to execute (from 'Makefile', line 41):
+	g++ -o $@ $< -c $(shell cat cppflags)
+
+magic.ii: magic.cc checkret.hh fixed_buf.hh md5.hh unixpp.hh util.hh cppflags
+#  Precious file (prerequisite of .PRECIOUS).
+#  Implicit rule search has been done.
+#  Implicit/static pattern stem: 'magic'
+#  Last modified 2022-09-06 06:23:15.942200551
+#  File has been updated.
+#  Successfully updated.
+#  recipe to execute (from 'Makefile', line 44):
+	g++ -o $@ $< -E $(shell cat cppflags)
+
+dump.oo: dump.ii cppflags
+#  Precious file (prerequisite of .PRECIOUS).
+#  Implicit rule search has been done.
+#  Implicit/static pattern stem: 'dump'
+#  Last modified 2022-09-06 06:23:18.826210012
+#  File has been updated.
+#  Successfully updated.
+#  recipe to execute (from 'Makefile', line 41):
+	g++ -o $@ $< -c $(shell cat cppflags)
+
+# Not a target:
+md5.h:
+#  Implicit rule search has not been done.
+#  Modification time never checked.
+#  File has not been updated.
+
+checkret.ii: checkret.cc checkret.hh fixed_buf.hh md5.hh unixpp.hh util.hh cppflags
+#  Precious file (prerequisite of .PRECIOUS).
+#  Implicit rule search has been done.
+#  Implicit/static pattern stem: 'checkret'
+#  Last modified 2022-09-06 06:23:15.754199933
+#  File has been updated.
+#  Successfully updated.
+#  recipe to execute (from 'Makefile', line 44):
+	g++ -o $@ $< -E $(shell cat cppflags)
+
+dump.ii: dump.cc checkret.hh fixed_buf.hh md5.hh unixpp.hh util.hh cppflags
+#  Precious file (prerequisite of .PRECIOUS).
+#  Implicit rule search has been done.
+#  Implicit/static pattern stem: 'dump'
+#  Last modified 2022-09-06 06:23:16.110201103
+#  File has been updated.
+#  Successfully updated.
+#  recipe to execute (from 'Makefile', line 44):
+	g++ -o $@ $< -E $(shell cat cppflags)
+
+# Not a target:
+md5.cc:
+#  Precious file (prerequisite of .PRECIOUS).
+#  Implicit rule search has been done.
+#  Last modified 2022-09-06 06:07:59.356157716
+#  File has been updated.
+#  Successfully updated.
+
+recv.ii: recv.cc checkret.hh fixed_buf.hh md5.hh unixpp.hh util.hh cppflags
+#  Precious file (prerequisite of .PRECIOUS).
+#  Implicit rule search has been done.
+#  Implicit/static pattern stem: 'recv'
+#  Last modified 2022-09-06 06:23:15.698199749
+#  File has been updated.
+#  Successfully updated.
+#  recipe to execute (from 'Makefile', line 44):
+	g++ -o $@ $< -E $(shell cat cppflags)
+
+one_upload: one_upload.oo libsimp.a ldflags
+#  Implicit rule search has not been done.
+#  Implicit/static pattern stem: 'one_upload'
+#  Last modified 2022-09-06 06:24:29.12243181
+#  File has been updated.
+#  Successfully updated.
+#  recipe to execute (from 'Makefile', line 34):
+	g++ -o $@ $< $(shell cat ldflags)
+
+one_upload.oo: one_upload.ii cppflags
+#  Precious file (prerequisite of .PRECIOUS).
+#  Implicit rule search has been done.
+#  Implicit/static pattern stem: 'one_upload'
+#  Last modified 2022-09-06 06:23:18.842210065
+#  File has been updated.
+#  Successfully updated.
+#  recipe to execute (from 'Makefile', line 41):
+	g++ -o $@ $< -c $(shell cat cppflags)
+
+# Not a target:
+.DEFAULT:
+#  Implicit rule search has not been done.
+#  Modification time never checked.
+#  File has not been updated.
+
+all: recv send dump one_upload
+#  Implicit rule search has been done.
+#  File does not exist.
+#  File has not been updated.
+#  Dependencies recipe running (THIS IS A BUG).
+# variable set hash-table stats:
+# Load=0/32=0%, Rehash=0, Collisions=0/12=0%
+
+# Not a target:
+recv.cc:
+#  Precious file (prerequisite of .PRECIOUS).
+#  Implicit rule search has been done.
+#  Last modified 2022-09-06 06:00:53.056655971
+#  File has been updated.
+#  Successfully updated.
+
+# Not a target:
+config.h:
+#  Implicit rule search has not been done.
+#  Modification time never checked.
+#  File has not been updated.
+
+one_upload.ii: one_upload.cc checkret.hh fixed_buf.hh md5.hh unixpp.hh util.hh cppflags
+#  Precious file (prerequisite of .PRECIOUS).
+#  Implicit rule search has been done.
+#  Implicit/static pattern stem: 'one_upload'
+#  Last modified 2022-09-06 06:23:16.174201313
+#  File has been updated.
+#  Successfully updated.
+#  recipe to execute (from 'Makefile', line 44):
+	g++ -o $@ $< -E $(shell cat cppflags)
+
+# Not a target:
+fixed_buf.hh:
+#  Implicit rule search has been done.
+#  Last modified 2022-09-06 06:22:10.369977018
+#  File has been updated.
+#  Successfully updated.
+
+# Not a target:
+cflags:
+#  Implicit rule search has not been done.
+#  Modification time never checked.
+#  File has not been updated.
+
+# Not a target:
+checkret.hh:
+#  Implicit rule search has been done.
+#  Last modified 2022-09-06 06:22:10.369977018
+#  File has been updated.
+#  Successfully updated.
+
+magic.oo: magic.ii cppflags
+#  Precious file (prerequisite of .PRECIOUS).
+#  Implicit rule search has been done.
+#  Implicit/static pattern stem: 'magic'
+#  Last modified 2022-09-06 06:23:18.626209357
+#  File has been updated.
+#  Successfully updated.
+#  recipe to execute (from 'Makefile', line 41):
+	g++ -o $@ $< -c $(shell cat cppflags)
+
+# Not a target:
+ldflags:
+#  Implicit rule search has been done.
+#  Last modified 2022-09-05 05:57:08.435614323
+#  File has been updated.
+#  Successfully updated.
+
+fixed_buf.ii: fixed_buf.cc checkret.hh fixed_buf.hh md5.hh unixpp.hh util.hh cppflags
+#  Precious file (prerequisite of .PRECIOUS).
+#  Implicit rule search has been done.
+#  Implicit/static pattern stem: 'fixed_buf'
+#  Last modified 2022-09-06 06:23:15.39419875
+#  File has been updated.
+#  Successfully updated.
+#  recipe to execute (from 'Makefile', line 44):
+	g++ -o $@ $< -E $(shell cat cppflags)
+
+# Not a target:
+send.cc:
+#  Precious file (prerequisite of .PRECIOUS).
+#  Implicit rule search has been done.
+#  Last modified 2022-09-06 06:00:53.056655971
+#  File has been updated.
+#  Successfully updated.
+
+# Not a target:
+magic.cc:
+#  Precious file (prerequisite of .PRECIOUS).
+#  Implicit rule search has been done.
+#  Last modified 2022-09-06 06:00:53.056655971
+#  File has been updated.
+#  Successfully updated.
+
+# 'override' directive
+send: .SHELLSTATUS := 0
+send: send.oo libsimp.a ldflags
+#  Implicit rule search has not been done.
+#  Implicit/static pattern stem: 'send'
+#  Modification time never checked.
+#  File has been updated.
+#  Failed to be updated.
+# automatic
+# @ := send
+# automatic
+# * := send
+# automatic
+# < := send.oo
+# automatic
+# + := send.oo libsimp.a ldflags
+# automatic
+# % := 
+# automatic
+# ^ := send.oo libsimp.a ldflags
+# automatic
+# ? := send.oo libsimp.a ldflags
+# automatic
+# | := 
+# variable set hash-table stats:
+# Load=9/32=28%, Rehash=0, Collisions=1/17=6%
+#  recipe to execute (from 'Makefile', line 34):
+	g++ -o $@ $< $(shell cat ldflags)
+
+# Not a target:
+dump.cc:
+#  Precious file (prerequisite of .PRECIOUS).
+#  Implicit rule search has been done.
+#  Last modified 2022-09-06 06:00:53.056655971
+#  File has been updated.
+#  Successfully updated.
+
+# Not a target:
+fixed_buf.cc:
+#  Precious file (prerequisite of .PRECIOUS).
+#  Implicit rule search has been done.
+#  Last modified 2022-09-06 06:00:53.056655971
+#  File has been updated.
+#  Successfully updated.
+
+# Not a target:
+util.hh:
+#  Implicit rule search has been done.
+#  Last modified 2022-09-06 06:22:10.369977018
+#  File has been updated.
+#  Successfully updated.
+
+recv.oo: recv.ii cppflags
+#  Precious file (prerequisite of .PRECIOUS).
+#  Implicit rule search has been done.
+#  Implicit/static pattern stem: 'recv'
+#  Last modified 2022-09-06 06:23:18.582209212
+#  File has been updated.
+#  Successfully updated.
+#  recipe to execute (from 'Makefile', line 41):
+	g++ -o $@ $< -c $(shell cat cppflags)
+
+# Not a target:
+unixpp.cc:
+#  Precious file (prerequisite of .PRECIOUS).
+#  Implicit rule search has been done.
+#  Last modified 2022-09-06 06:11:48.132116971
+#  File has been updated.
+#  Successfully updated.
+
+# files hash-table stats:
+# Load=120/1024=12%, Rehash=0, Collisions=28/421=7%
+# VPATH Search Paths
+
+# No 'vpath' search paths.
+
+# No general ('VPATH' variable) search path.
+
+# strcache buffers: 1 (0) / strings = 154 / storage = 1116 B / avg = 7 B
+# current buf: size = 8162 B / used = 1116 B / count = 154 / avg = 7 B
+
+# strcache performance: lookups = 422 / hit rate = 63%
+# hash-table stats:
+# Load=154/8192=2%, Rehash=0, Collisions=0/422=0%
+# Finished Make data base on Tue Sep  6 06:25:12 2022
+
