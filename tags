@@ -8,8 +8,6 @@ A	md5.h	/^  uint32_t A;$/;"	m	struct:md5_ctx
 B	md5.h	/^  uint32_t B;$/;"	m	struct:md5_ctx
 BLOCKSIZE	md5.c	62;"	d	file:
 C	md5.h	/^  uint32_t C;$/;"	m	struct:md5_ctx
-CPPFLAGS	Makefile	/^CPPFLAGS := -ggdb3 -I . -I .$/;"	m
-CXX	Makefile	/^CXX=g++$/;"	m
 CYCLIC	md5.c	392;"	d	file:
 D	md5.h	/^  uint32_t D;$/;"	m	struct:md5_ctx
 FF	md5.c	336;"	d	file:
@@ -18,8 +16,6 @@ FH	md5.c	338;"	d	file:
 FI	md5.c	339;"	d	file:
 GL_OPENSSL_INLINE	md5.c	25;"	d	file:
 GL_OPENSSL_NAME	md5.h	65;"	d
-LD	Makefile	/^LD=g++$/;"	m
-MAKEFLAGS	Makefile	/^MAKEFLAGS:=-rR$/;"	m
 MD5_BLOCK_SIZE	md5.h	31;"	d
 MD5_DIGEST_SIZE	md5.h	30;"	d
 OP	md5.c	380;"	d	file:
@@ -32,6 +28,7 @@ WORDS_BIGENDIAN	md5.c	42;"	d	file:
 _MD5_H	md5.h	21;"	d
 __GNUC_PREREQ	md5.h	35;"	d
 __GNUC_PREREQ	md5.h	38;"	d
+__GNU_SOURCE	magic.cc	2;"	d	file:
 __THROW	md5.h	44;"	d
 __THROW	md5.h	46;"	d
 __md5_buffer	md5.h	51;"	d
@@ -41,31 +38,39 @@ __md5_process_block	md5.h	54;"	d
 __md5_process_bytes	md5.h	55;"	d
 __md5_read_ctx	md5.h	56;"	d
 __md5_stream	md5.h	57;"	d
-announce	checkret.cc	15;"	d	file:
+announce	checkret.cc	18;"	d	file:
 beg	fixed_buf.hh	/^  char *beg() { return buf; }$/;"	f	struct:fixed_buf
 beg	fixed_buf.hh	/^  const char *beg() const { return buf; }$/;"	f	struct:fixed_buf
+beg	unixpp.hh	/^    const char *beg;$/;"	m	struct:unixpp::range_t
 bind_and_accept	checkret.cc	/^int checkret::bind_and_accept(const char *addr, int port) {$/;"	f	class:checkret
 buf	dump.cc	/^static char buf[8];$/;"	v	file:
 buf	fixed_buf.hh	/^  char buf[_size];$/;"	m	struct:fixed_buf
+buf	one_upload.cc	/^static char buf[8*1024];$/;"	v	file:
 buffer	md5.h	/^  uint32_t buffer[32]; \/* 128 bytes; the first buflen bytes are in use *\/$/;"	m	struct:md5_ctx
 buffer	send.cc	/^char buffer[1024*300];$/;"	v
 buflen	md5.h	/^  uint32_t buflen;     \/* ≥ 0, ≤ 128 *\/$/;"	m	struct:md5_ctx
 checkret	checkret.hh	/^namespace checkret $/;"	n
 checkret_hh	checkret.hh	2;"	d
+countof	util.hh	4;"	d
+crypto	md5.hh	/^namespace crypto {$/;"	n
 end	fixed_buf.hh	/^  char *end() { return buf+_size; }$/;"	f	struct:fixed_buf
 end	fixed_buf.hh	/^  const char *end() const { return buf+_size; }$/;"	f	struct:fixed_buf
-filename	dump.cc	/^int filename() {$/;"	f
+end	unixpp.hh	/^    const char *end;$/;"	m	struct:unixpp::range_t
+filename	dump.cc	/^int filename(fixed_buf<size> &fn_buf) {$/;"	f
+filename	one_upload.cc	/^int filename(fixed_buf<size> &fn_buf) {$/;"	f
 fillbuf	md5.c	/^static const unsigned char fillbuf[64] = { 0x80, 0 \/* , 0, 0, ...  *\/ };$/;"	v	file:
 fixed_buf	fixed_buf.hh	/^struct fixed_buf {$/;"	s
 fixedbuf_hh	fixed_buf.hh	2;"	d
-fn_buf	dump.cc	/^static char fn_buf[30];$/;"	v	file:
 forking	dump.cc	/^bool forking(){$/;"	f
+forking	one_upload.cc	/^bool forking(){$/;"	f
 forking	recv.cc	/^bool forking(){$/;"	f
 forking	send.cc	/^bool forking(){$/;"	f
 format_now	fixed_buf.cc	/^void format_now(fixed_buf<20> &res)$/;"	f
 ifd	dump.cc	/^int ifd=-1;$/;"	v
+ifd	one_upload.cc	/^int ifd=-1;$/;"	v
 ifd	send.cc	/^int ifd=-1;$/;"	v
 main	dump.cc	/^int main(int argc, char**argv){$/;"	f
+main	one_upload.cc	/^int main(int argc, char**argv){$/;"	f
 main	recv.cc	/^int main(int argc, char**argv){$/;"	f
 main	send.cc	/^int main(int argc, char**argv){$/;"	f
 md5_buffer	md5.c	/^md5_buffer (const char *buffer, size_t len, void *resblock)$/;"	f
@@ -73,6 +78,7 @@ md5_buffer	md5.c	52;"	d	file:
 md5_ctx	md5.h	/^struct md5_ctx$/;"	s
 md5_finish_ctx	md5.c	/^md5_finish_ctx (struct md5_ctx *ctx, void *resbuf)$/;"	f
 md5_finish_ctx	md5.c	49;"	d	file:
+md5_hh	md5.hh	2;"	d
 md5_init_ctx	md5.c	/^md5_init_ctx (struct md5_ctx *ctx)$/;"	f
 md5_init_ctx	md5.c	46;"	d	file:
 md5_process_block	md5.c	/^md5_process_block (const void *buffer, size_t len, struct md5_ctx *ctx)$/;"	f
@@ -83,18 +89,34 @@ md5_read_ctx	md5.c	/^md5_read_ctx (const struct md5_ctx *ctx, void *resbuf)$/;"	
 md5_read_ctx	md5.c	50;"	d	file:
 md5_stream	md5.c	/^md5_stream (FILE *stream, void *resblock)$/;"	f
 md5_stream	md5.c	51;"	d	file:
+md5file	md5.cc	/^void crypto::md5file(const char *file){$/;"	f	class:crypto
+md5sum	md5.cc	/^void crypto::md5sum(const char *file) {$/;"	f	class:crypto
+md5text	md5.hh	/^  typedef array<char,32> md5text;$/;"	t	namespace:crypto
 min	send.cc	/^long min(long lhs, long rhs) {$/;"	f
+nib1	md5.cc	/^  unsigned nib1 : 4;$/;"	m	struct:nibble	file:
+nib2	md5.cc	/^  unsigned nib2 : 4;$/;"	m	struct:nibble	file:
+nibble	md5.cc	/^struct nibble {$/;"	s	file:
 now	checkret.cc	/^const char *checkret::now()$/;"	f	class:checkret
 ofd	send.cc	/^int ofd=-1;$/;"	v
 open_out	recv.cc	/^int open_out(int sockfd){$/;"	f
 pexit	checkret.hh	/^  inline int pexit(int ret,const char *msg){$/;"	f	namespace:checkret
+range_t	unixpp.hh	/^  struct range_t {$/;"	s	namespace:unixpp
 read_bytes	recv.cc	/^size_t read_bytes(int sockfd){$/;"	f
 readdel	recv.cc	/^int readdel(int fd, char *buf, size_t size, char del){$/;"	f
 sendsum	recv.cc	/^char sendsum[1024];$/;"	v
 set_uint32	md5.c	/^set_uint32 (char *cp, uint32_t v)$/;"	f	file:
+show_magic	magic.cc	/^void show_magic(const char *fname) {$/;"	f
+sigchild	dump.cc	/^void sigchild(int arg){$/;"	f
+sigchild	one_upload.cc	/^void sigchild(int arg){$/;"	f
 size	fixed_buf.hh	/^  size_t size() { return _size; }$/;"	f	struct:fixed_buf
 total	dump.cc	/^size_t total=0;$/;"	v
 total	md5.h	/^  uint32_t total[2];$/;"	m	struct:md5_ctx
+total	one_upload.cc	/^size_t total=0;$/;"	v
+unixpp	unixpp.hh	/^namespace unixpp {$/;"	n
+unixpp_hh	unixpp.hh	2;"	d
+util_hh	util.hh	2;"	d
+wait_nohang	dump.cc	/^int wait_nohang(int *stat) {$/;"	f
+wait_nohang	one_upload.cc	/^int wait_nohang(int *stat) {$/;"	f
 write_cs	checkret.hh	/^  inline size_t write_cs(int fd, const char *str)$/;"	f	namespace:checkret
 xaccept	checkret.cc	/^int checkret::xaccept(int sock, sockaddr *addr, socklen_t *addrlen){$/;"	f	class:checkret
 xaccept4	checkret.cc	/^int checkret::xaccept4(int sock, sockaddr *addr, socklen_t *addrlen,int flags){$/;"	f	class:checkret
@@ -108,6 +130,9 @@ xinet_aton	checkret.cc	/^int checkret::xinet_aton(const char *cp, struct in_addr
 xlisten	checkret.cc	/^int checkret::xlisten(int sock, int backlog){$/;"	f	class:checkret
 xmkdir	checkret.hh	/^  inline int xmkdir(const char *pathname, mode_t mode) $/;"	f	namespace:checkret
 xmkdirat	checkret.cc	/^void checkret::xmkdirat(int dirfd, const char *pathname, mode_t mode){$/;"	f	class:checkret
+xmmap	checkret.cc	/^void *checkret::xmmap(void *addr, size_t length, int prot, int flags,$/;"	f	class:checkret
+xmmap_file	unixpp.cc	/^range_t unixpp::xmmap_file(const char*fname) {$/;"	f	class:unixpp
+xmunmap	checkret.cc	/^void checkret::xmunmap(void *addr, size_t length){$/;"	f	class:checkret
 xopenat	checkret.cc	/^int checkret::xopenat(int dirfd, const char *name, int flags,mode_t mode)$/;"	f	class:checkret
 xpipe	checkret.cc	/^void checkret::xpipe(int fds[2]) {$/;"	f	class:checkret
 xread	checkret.cc	/^int checkret::xread(int fd, char *const buf, size_t size,bool full){$/;"	f	class:checkret

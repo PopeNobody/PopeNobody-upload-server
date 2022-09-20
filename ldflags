@@ -1,1 +1,1 @@
- -L . -lsimp
+ -L. -lsimp ./libmagic/file-5.41/src/.libs/libmagic.a  -static -llzma -lbz2 -lz 
