@@ -1,16 +1,16 @@
-send
-recv
-dump
-*.ok
-*.o
-*.a
 
-out
-one_upload
-*.i
+*.a
+*.d
+dump
 fd-client
 fd-server
+*.i
+*.o
+*.ok
 old-client
 old-server
-*.d
+one_upload
+out
+recv
+send
 upload
