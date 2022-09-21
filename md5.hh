@@ -7,7 +7,9 @@
 #define MD5_DIGEST_SIZE 16
 #define MD5_BLOCK_SIZE 64
 
+#ifndef __THROW
 #define __THROW       throw ()
+#endif
 
 
 # if HAVE_OPENSSL_MD5
