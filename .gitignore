@@ -1,6 +1,7 @@
 
-
 *.a
+bin2cc
+client
 *.d
 dump
 fd-client
@@ -16,4 +17,5 @@ one_upload
 out
 recv
 send
+server
 upload
