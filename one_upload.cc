@@ -2,6 +2,7 @@
 #include "util.hh"
 #include "fixed_buf.hh"
 #include <fcntl.h>
+#include "md5.h"
 #include "md5.hh"
 #include <sys/signal.h>
 #include <wait.h>
@@ -38,23 +39,13 @@ void sigchild(int arg){
 };
 int main(int argc, char**argv){
   int port=0;
-  bool usage=false;
-  if(argc!=2) {
-    usage=true;
-  }
-  if(!usage){
-    for(char *cp=argv[1];*cp;cp++){
-      if(*cp<'0' || *cp>'9') {
-        usage=true;
-        break;
-      };
-    };
-  }
-  if(usage){
-    dprintf(2,"usage: %s <port>\n",argv[0]);
+  if(argc!=3) {
+    dprintf(2,"usage: %s <oid> <port>\n",argv[0]);
     exit(1);
   }
-  port=atoi(argv[1]);
+
+  const string oid=argv[1];
+  port=atoi(argv[2]);
   signal(SIGCHLD, &sigchild);
   ifd=bind_and_accept("0.0.0.0",port);
   fixed_buf<60> fn_buf;
@@ -71,12 +62,17 @@ int main(int argc, char**argv){
     while(beg<end)
       beg+=xwrite(ofd,beg,end-beg);
   };
-  xclose(ifd);
 
   range_t file=xmmap_file(fn_buf.buf);
   string md5sum=unixpp::md5sum(file);
   string ext = unixpp::magic_ext(file);
-  string filename="avatar."+md5sum+"."+ext;
+  for(auto b(ext.begin()),e(ext.end()); b!=e;b++){
+    if(*b=='/'){
+      ext=string(ext.begin(),b);
+      break;
+    }
+  }
+  string filename="avatar."+oid+"."+md5sum+"."+ext;
 
   string output="{ \"filename\": \"";
   output += filename;
@@ -87,8 +83,11 @@ int main(int argc, char**argv){
   output += "\",\"ext\": \"";
   output += ext;
   output += "\"}";
+  dprintf(ifd,"%s\n",output.c_str());
+  xclose(ifd);
   dprintf(1,"%s\n",output.c_str());
   filename="upload/"+filename;
+  unlink(filename.c_str());
   xlink(fn_buf.buf,filename.c_str());
   xunlink(fn_buf.buf);
   return 0;

@@ -1,33 +1,56 @@
-MAKEFLAGS:=-rR
+MAKEFLAGS:=-rR -j
 
 LD=g++
 CXX=g++
-
-exes:= upload old-client old-server fd-client fd-server 
-all: $(exes)
 
 CPPFLAGS :=
 LDFLAGS :=
 CFLAGS :=
 
-libsimp.a: checkret.o fixed_buf.o md5.o fd-path.o md5.o
+allsrc:=$(wildcard *.cc *.c)
+
+exeexe:= one_upload
+all: $(exeexe)
+
+.PHONY: install
+install:
+	cp one_upload /var/cell411/cell411-empty/
+	cp one_upload /var/cell411/cell411-parse/
+
+exesrc:= $(patsubst %,%.cc,$(exeexe))
+exeobj:= $(patsubst %.cc,%.oo,$(exesrc))
+execpp:= $(patsubst %.cc,%.ii,$(exesrc))
+exeall:= $(exesrc) $(exeobj) $(execpp)
+
+libsrc:= $(filter-out $(exesrc), $(allsrc))
+libobj:= $(patsubst %.c,%.o,$(patsubst %.cc,%.oo,$(libsrc)))
+libcpp:= $(patsubst %.cc,%.ii,$(libsrc))
+liball:= $(libsrc) $(libobj) $(libcpp)
+all: $(exeexe)
+
+#$(warning libsrc:=$(libsrc))
+
+libsimp.a: $(libobj)
 	ar -r $@ $?
 
-.PRECIOUS: $(patsubst %.cc,%.o,$(wildcard *.cc *c))
+.PRECIOUS: $(liball) $(exeall)
 
-$(exes): %: %.o libsimp.a ldflags
+$(exeexe): %: %.oo libsimp.a ldflags
 	g++ -o $@ $< $(shell cat ldflags)
 
 
 %.i: %.cc checkret.hh fixed_buf.hh cppflags cflags
 	g++ -o $@ $< -E $(shell cat cppflags)
 
-
-%.o: %.cc checkret.hh fixed_buf.hh cppflags cflags
+%.oo: %.ii cppflags
 	g++ -o $@ $< -c $(shell cat cppflags)
+
+%.ii: %.cc $(wildcard *.hh) cppflags
+	g++ -o $@ $< -E $(shell cat cppflags)
 
 
 clean:
-	rm -f *.o *.a $(exes) log
+	rm -f *.oo *.a recv send
+	rm -fr log
 
 include /dev/null $(wildcard *.d)

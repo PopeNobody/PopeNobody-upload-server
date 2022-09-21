@@ -1,1 +1,1 @@
- -L . -lsimp
+-static -L . -lsimp  -lmagic -lbz2 -lz -llzma

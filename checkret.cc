@@ -1,4 +1,5 @@
 #include <arpa/inet.h>
+#include <sys/mman.h>
 #include <errno.h>
 #include <fcntl.h>
 #include <netinet/in.h>
@@ -11,10 +12,13 @@
 #include <unistd.h>
 #include "fixed_buf.hh"
 #include "checkret.hh"
+#include "unixpp.hh"
+
 #define announce() 
 //dprintf(2,"%s:%d:%s\n",__FILE__,__LINE__,__PRETTY_FUNCTION__);
 
 using namespace checkret;
+using unixpp::range_t;
 
 int checkret::xbind(int fd, const struct sockaddr *addr, socklen_t len){
   announce();
@@ -188,21 +192,21 @@ int checkret::bind_and_accept(const char *addr, int port) {
   sin_addr.sin_port = htons(port);
   sin_addr.sin_family = AF_INET;
   size_t len=sizeof(sin_addr);
-  dprintf(1,"%s: listen\n",now());
+  dprintf(2,"%s: listen\n",now());
   res=xbind(sock,(sockaddr*)&sin_addr,len);  
-  dprintf(1,"%s: listen\n",now());
+  dprintf(2,"%s: listen\n",now());
   res=xlisten(sock,1);
   while(true){
     socklen_t socklen;
-    dprintf(1,"%s: accepting on %s:%d\n",now(),addr,port);
+    dprintf(2,"%s: accepting on %s:%d\n",now(),addr,port);
     int sockfd=xaccept(sock,(sockaddr*)&sin_addr,&socklen);
-    dprintf(1,"%s: connection from: %s %d\n",
+    dprintf(2,"%s: connection from: %s %d\n",
         now(),
         inet_ntoa(sin_addr.sin_addr),ntohs(sin_addr.sin_port));
     xsetsockopt(sockfd, IPPROTO_TCP, TCP_NODELAY, (char *) &flag, sizeof(int));
     if(forking()){
       int pid=xfork();
-      dprintf(1,"%d => %d\n",getpid(),pid);
+      dprintf(2,"%d => %d\n",getpid(),pid);
       if(!pid) {
         xclose(sock);
         return sockfd;
@@ -224,22 +228,28 @@ void checkret::xpipe(int fds[2]) {
   if(pipe(fds))
     pexit(13,"pipe");
 };
-//   int checkret::xexecve(const char *pathname, char *const argv[], char *const envp[])
-//   {
-//     execve(pathname,argv,envp);
-//     pexit(14,"execve");
-//   }
-//   int checkret::xexecveat(int dirfd, const char *pathname,
-//       char *const argv[], char *const envp[],
-//       int flags)
-//   {
-//     execve(pathname, argv, envp);
-//     pexit(14,"execveat");
-//     exit(-1);
-//   };
 void checkret::xmkdirat(int dirfd, const char *pathname, mode_t mode){
-  if(mkdirat(dirfd,pathname,mode))
-    pexit(14,"mkdir");
+  dprintf(2,"xmkdirat(%d,\"%s\",%d)\n",dirfd,pathname,mode);
+  if(!mkdirat(dirfd,pathname,mode))
+    return;
+  pexit(14,"mkdirat");
+};
+void checkret::xlink(const char *oldpath, const char *newpath){
+  dprintf(2,"xlink(\"%s\",\"%s\")",oldpath,newpath);
+  if(!link(oldpath,newpath))
+    return;
+  pexit(17,"link");
+};
+void checkret::xunlinkat(int dirfd, const char *path, int flags) {
+  if(unlinkat(dirfd,path,flags))
+    pexit(16,"unlinkat");
+}
+void checkret::xlinkat(int olddirfd, const char *oldpath,
+    int newdirfd, const char *newpath, int flags)
+{
+  if(!linkat(olddirfd,oldpath,newdirfd,newpath,flags)) 
+    return;
+  pexit(18,"linkat");
 };
 const char *checkret::now()
 {
@@ -253,6 +263,24 @@ const char *checkret::now()
       gm.tm_hour,gm.tm_min,gm.tm_sec);
   return res.beg();
 };
+void *checkret::xmmap(void *addr, size_t length, int prot, int flags,
+    int fd, off_t offset)
+{
+  void *res=mmap(addr,length,prot,flags,fd,offset);
+  if(res==MAP_FAILED)
+    pexit(1,"mmap");
+  return res;
+};
+void checkret::xmunmap(void *addr, size_t length){
+  if(munmap(addr,length))
+    pexit(1,"munmap");
+};
+
+int checkret::xfstatat (int fd, const char *file, struct stat *buf, int flag);
+int checkret::xfchmodat (int fd, const char *file, mode_t mode, int flag);
+int checkret::xmknodat (int fd, const char *path, mode_t mode, dev_t dev);
+int checkret::xmkfifoat (int fd, const char *path, mode_t mode);
+int checkret::xutimensat (int fd, const char *path, const struct timespec times[2], int flags);
 int checkret::xlseek(int fd, int off, int origin){
   int res = lseek(fd,off,origin);
   if(res==(off_t)-1)
