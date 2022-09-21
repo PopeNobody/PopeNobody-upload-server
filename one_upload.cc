@@ -16,9 +16,6 @@ extern "C" {
   int dprintf(int, const char *, ...);
   int atoi(const char *);
 }
-bool forking(){
-  return false;
-};
 
 static char buf[8*1024];
 int ifd=-1;
@@ -47,7 +44,7 @@ int main(int argc, char**argv){
   const string oid=argv[1];
   port=atoi(argv[2]);
   signal(SIGCHLD, &sigchild);
-  ifd=bind_and_accept("0.0.0.0",port);
+  ifd=bind_accept_nofork("0.0.0.0",port);
   fixed_buf<60> fn_buf;
   filename(fn_buf);
   mkdirat(AT_FDCWD,"upload",0777);

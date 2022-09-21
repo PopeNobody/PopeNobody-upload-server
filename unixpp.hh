@@ -12,6 +12,12 @@ namespace unixpp {
   struct range_t {
     const char *beg;
     const char *end;
+    size_t size() const {
+      return end-beg;
+    }
+    const char &operator[](int idx) const{
+      return beg[idx];
+    }
   };
 
   range_t xmmap_file(const char*fname);

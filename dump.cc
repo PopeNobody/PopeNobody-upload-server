@@ -11,9 +11,6 @@ extern "C" {
   int dprintf(int, const char *, ...);
   int atoi(const char *);
 }
-bool forking(){
-  return true;
-};
 
 static char buf[8];
 int ifd=-1;
@@ -34,7 +31,7 @@ void sigchild(int arg){
 };
 int main(int argc, char**argv){
   signal(SIGCHLD, &sigchild);
-  ifd=bind_and_accept("0.0.0.0",3333);
+  ifd=bind_accept_fork("0.0.0.0",3333);
   while(true){
     fixed_buf<60> fn_buf;
     filename(fn_buf);

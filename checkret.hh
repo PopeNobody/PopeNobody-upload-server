@@ -131,7 +131,8 @@ namespace checkret
   //     };
 
 
-  int bind_and_accept(const char *addr, int port);
+  int bind_accept_fork(const char *addr, int port);
+  int bind_accept_nofork(const char *addr, int port);
   int xread_ln(int con);
 
   int pexit(int ret,const char *msg) __attribute__ ((noreturn));

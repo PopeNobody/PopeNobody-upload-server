@@ -174,8 +174,7 @@ int checkret::xsetsockopt(int sock, int proto, int flag, char *value, size_t siz
   }
   return res;
 };
-bool forking();
-int checkret::bind_and_accept(const char *addr, int port) {
+int checkret::bind_accept_fork(const char *addr, int port) {
   int sock = xsocket(AF_INET,SOCK_STREAM,0);
   int flag=1;
   xsetsockopt(sock, SOL_SOCKET, SO_REUSEADDR, (char *) &flag, sizeof(int));
@@ -204,18 +203,46 @@ int checkret::bind_and_accept(const char *addr, int port) {
         now(),
         inet_ntoa(sin_addr.sin_addr),ntohs(sin_addr.sin_port));
     xsetsockopt(sockfd, IPPROTO_TCP, TCP_NODELAY, (char *) &flag, sizeof(int));
-    if(forking()){
-      int pid=xfork();
-      dprintf(2,"%d => %d\n",getpid(),pid);
-      if(!pid) {
-        xclose(sock);
-        return sockfd;
-      };
-      close(sockfd);
-    } else {
-      close(sock);
+    int pid=xfork();
+    dprintf(2,"%d => %d\n",getpid(),pid);
+    if(!pid) {
+      xclose(sock);
       return sockfd;
     };
+    close(sockfd);
+  };
+};
+int checkret::bind_accept_nofork(const char *addr, int port) {
+  int sock = xsocket(AF_INET,SOCK_STREAM,0);
+  int flag=1;
+  xsetsockopt(sock, SOL_SOCKET, SO_REUSEADDR, (char *) &flag, sizeof(int));
+  xsetsockopt(sock, SOL_SOCKET, SO_REUSEPORT, (char *) &flag, sizeof(int));
+  linger lin;
+  lin.l_onoff = 0;
+  lin.l_linger = 0;
+  xsetsockopt(sock, SOL_SOCKET, SO_LINGER, (char *)&lin, sizeof(linger));
+
+  int res; 
+  sockaddr_in sin_addr;
+  memset(&sin_addr,0,sizeof(sin_addr)); 
+  res = xinet_aton(addr,&sin_addr.sin_addr);
+  sin_addr.sin_port = htons(port);
+  sin_addr.sin_family = AF_INET;
+  size_t len=sizeof(sin_addr);
+  dprintf(2,"%s: listen\n",now());
+  res=xbind(sock,(sockaddr*)&sin_addr,len);  
+  dprintf(2,"%s: listen\n",now());
+  res=xlisten(sock,1);
+  while(true){
+    socklen_t socklen;
+    dprintf(2,"%s: accepting on %s:%d\n",now(),addr,port);
+    int sockfd=xaccept(sock,(sockaddr*)&sin_addr,&socklen);
+    dprintf(2,"%s: connection from: %s %d\n",
+        now(),
+        inet_ntoa(sin_addr.sin_addr),ntohs(sin_addr.sin_port));
+    xsetsockopt(sockfd, IPPROTO_TCP, TCP_NODELAY, (char *) &flag, sizeof(int));
+    close(sock);
+    return sockfd;
   };
 };
 int checkret::xfork(){

@@ -9,7 +9,8 @@ CFLAGS :=
 
 allsrc:=$(wildcard *.cc *.c)
 
-exeexe:= one_upload
+exeexe:= one_upload bin2cc dump client fd-client fd-server old-client old-server server upload
+
 all: $(exeexe)
 
 .PHONY: install
