@@ -12,10 +12,23 @@ namespace unixpp {
   struct range_t {
     char *_beg;
     char *_end;
-    range_t(char *beg=0, char *end=0)
-      :_beg(beg), _end(end?end:beg)
+    range_t()
+      :_beg(0),_end(0)
     {
     }
+    range_t(char *beg, char *end=0)
+      :_beg(beg), _end(end)
+    {
+      if(_end || !_beg)
+        return;
+      _end=_beg;
+      while(*_end++)
+        ;
+    }
+    range_t(char *beg, size_t size)
+      :_beg(beg), _end(beg+size)
+    {
+    } 
     const char *beg() const{
       return _beg;
     };
@@ -32,7 +45,7 @@ namespace unixpp {
   struct range_vt {
   };
 
-  range_t xmmap_file(const char*fname);
+  range_t xmmap_file(const char*fname,bool write=false);
 
 
   using std::array;

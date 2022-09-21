@@ -11,12 +11,18 @@ using checkret::xopenat;
 using checkret::xmmap;
 
 
-range_t unixpp::xmmap_file(const char*fname) {
+range_t unixpp::xmmap_file(const char*fname,bool write) {
+  int prot=PROT_READ;
+  int mode=O_RDONLY;
+  if(write) {
+    prot|=PROT_WRITE;
+    mode|=O_RDWR;
+  };
   range_t res;
-  int fd=xopenat(AT_FDCWD,fname,O_RDONLY);
+  int fd=xopenat(AT_FDCWD,fname,mode);
   size_t size=lseek(fd,0,SEEK_END);
   char*mem=
-    (char*)xmmap(0,size,PROT_READ,MAP_PRIVATE,fd,0);
+    (char*)xmmap(0,size,prot,MAP_PRIVATE,fd,0);
   res=range_t(mem,mem+size);
   return res;
 };
