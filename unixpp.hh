@@ -10,14 +10,26 @@ namespace unixpp {
   using std::string;
 
   struct range_t {
-    const char *beg;
-    const char *end;
+    char *_beg;
+    char *_end;
+    range_t(char *beg=0, char *end=0)
+      :_beg(beg), _end(end?end:beg)
+    {
+    }
+    const char *beg() const{
+      return _beg;
+    };
+    const char *end() const{
+      return _end;
+    };
     size_t size() const {
-      return end-beg;
+      return end()-beg();
     }
     const char &operator[](int idx) const{
-      return beg[idx];
+      return beg()[idx];
     }
+  };
+  struct range_vt {
   };
 
   range_t xmmap_file(const char*fname);

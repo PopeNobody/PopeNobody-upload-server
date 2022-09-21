@@ -15,8 +15,9 @@ range_t unixpp::xmmap_file(const char*fname) {
   range_t res;
   int fd=xopenat(AT_FDCWD,fname,O_RDONLY);
   size_t size=lseek(fd,0,SEEK_END);
-  res.beg=(const char*)xmmap(0,size,PROT_READ,MAP_PRIVATE,fd,0);
-  res.end=res.beg+size;
+  char*mem=
+    (char*)xmmap(0,size,PROT_READ,MAP_PRIVATE,fd,0);
+  res=range_t(mem,mem+size);
   return res;
 };
 
@@ -30,7 +31,7 @@ string unixpp::md5sum(const unixpp::range_t &range)
   unsigned char resbuf[16];
   md5_ctx ctx;
   md5_init_ctx(&ctx);
-  md5_process_bytes( range.beg,range.end-range.beg,&ctx);
+  md5_process_bytes( range.beg(),range.size(),&ctx);
   md5_finish_ctx(&ctx,&resbuf);
   char buffer[34];
   for(int i=0;i<16;i++){

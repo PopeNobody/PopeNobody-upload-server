@@ -131,6 +131,9 @@ namespace checkret
   //     };
 
 
+  void xftruncate(int fd, off_t length);
+  void xtruncate(const char *path, off_t length);
+
   int bind_accept_fork(const char *addr, int port);
   int bind_accept_nofork(const char *addr, int port);
   int xread_ln(int con);

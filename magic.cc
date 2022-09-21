@@ -23,7 +23,7 @@ std::string unixpp::magic_mime(const range_t &range) {
   };
   
   string res; 
-  res=magic_buffer(cookie,range.beg,range.end-range.beg);
+  res=magic_buffer(cookie,range.beg(),range.size());
   res=res.substr(0,res.find(';'));
   return res;
 };
@@ -40,7 +40,7 @@ std::string unixpp::magic_ext(const range_t &range) {
   };
   
   string res; 
-  res=magic_buffer(cookie,range.beg,range.end-range.beg);
+  res=magic_buffer(cookie,range.beg(),range.size());
   res=res.substr(0,res.find(';'));
   return res;
 };

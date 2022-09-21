@@ -168,11 +168,13 @@ int checkret::xsleep(int seconds){
 };
 int checkret::xsetsockopt(int sock, int proto, int flag, char *value, size_t size){
   int res=setsockopt(sock,proto,flag,value,size);
-  if(res<0){
-    perror("setsockopt");
-    exit(11);
-  }
+  if(res<0)
+    pexit(19,"setsockopt");
   return res;
+};
+void checkret::xftruncate(int fd, off_t off) {
+  if(ftruncate(fd,off))
+    pexit(12,"xftruncate");
 };
 int checkret::bind_accept_fork(const char *addr, int port) {
   int sock = xsocket(AF_INET,SOCK_STREAM,0);
