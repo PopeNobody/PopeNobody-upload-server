@@ -15,8 +15,8 @@ all: $(exeexe)
 
 .PHONY: install
 install:
-	cp one_upload /var/cell411/cell411-empty/
-	cp one_upload /var/cell411/cell411-parse/
+	cp upload-server /var/cell411/cell411-empty/
+	cp upload-server /var/cell411/cell411-parse/
 
 exesrc:= $(patsubst %,%.cc,$(exeexe))
 exeobj:= $(patsubst %.cc,%.oo,$(exesrc))
