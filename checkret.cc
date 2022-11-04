@@ -10,6 +10,7 @@
 #include <sys/socket.h>
 #include <sys/types.h>
 #include <unistd.h>
+#include <time.h>
 #include "fixed_buf.hh"
 #include "checkret.hh"
 #include "unixpp.hh"

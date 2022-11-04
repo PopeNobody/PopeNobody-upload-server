@@ -2,7 +2,6 @@
 #include "util.hh"
 #include "fixed_buf.hh"
 #include <fcntl.h>
-#include "md5.h"
 #include "md5.hh"
 #include <sys/signal.h>
 #include <wait.h>
