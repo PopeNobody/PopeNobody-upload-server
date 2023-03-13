@@ -36,7 +36,7 @@ void sigchild(int arg){
 int main(int argc, char**argv){
   int port=0;
   if(argc!=3) {
-    dprintf(2,"usage: %s <oid> <port>\n",argv[0]);
+    dprintf(2,"usage: %s --profile <oid> <port>\n",argv[0]);
     exit(1);
   }
 
@@ -68,7 +68,7 @@ int main(int argc, char**argv){
       break;
     }
   }
-  string filename="avatar."+oid+"."+md5sum+"."+ext;
+  string filename=oid+"."+md5sum+"."+ext;
 
   string output="{ \"filename\": \"";
   output += filename;

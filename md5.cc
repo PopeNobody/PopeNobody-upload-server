@@ -32,39 +32,14 @@
 #include <string.h>
 #include <sys/types.h>
 
-#if USE_UNLOCKED_IO
-# include "unlocked-io.h"
-#endif
-
-#ifdef _LIBC
-# include <endian.h>
-# if __BYTE_ORDER == __BIG_ENDIAN
-#  define WORDS_BIGENDIAN 1
-# endif
-/* We need to keep the namespace clean so define the MD5 function
-   protected using leading __ .  */
-# define md5_init_ctx __md5_init_ctx
-# define md5_process_block __md5_process_block
-# define md5_process_bytes __md5_process_bytes
-# define md5_finish_ctx __md5_finish_ctx
-# define md5_read_ctx __md5_read_ctx
-# define md5_stream __md5_stream
-# define md5_buffer __md5_buffer
-#endif
-
 #include <byteswap.h>
-#ifdef WORDS_BIGENDIAN
-# define SWAP(n) bswap_32 (n)
-#else
-# define SWAP(n) (n)
-#endif
+#define SWAP(n) (n)
 
 #define BLOCKSIZE 32768
 #if BLOCKSIZE % 64 != 0
 # error "invalid BLOCKSIZE"
 #endif
 
-#if ! HAVE_OPENSSL_MD5
 /* This array contains the bytes used to pad the buffer to the next
    64-byte boundary.  (RFC 1321, 3.1: Step 1)  */
 static const unsigned char fillbuf[64] = { 0x80, 0 /* , 0, 0, ...  */ };
@@ -132,98 +107,12 @@ md5_finish_ctx (struct md5_ctx *ctx, void *resbuf) __THROW
 
   return md5_read_ctx (ctx, resbuf);
 }
-#endif
 
-#if defined _LIBC || defined GL_COMPILE_CRYPTO_STREAM
 
-#include "af_alg.h"
-
-/* Compute MD5 message digest for bytes read from STREAM.  The
-   resulting message digest number will be written into the 16 bytes
-   beginning at RESBLOCK.  */
-int
-md5_stream (FILE *stream, void *resblock)
-{
-  switch (afalg_stream (stream, "md5", resblock, MD5_DIGEST_SIZE))
-    {
-    case 0: return 0;
-    case -EIO: return 1;
-    }
-
-  char *buffer = malloc (BLOCKSIZE + 72);
-  if (!buffer)
-    return 1;
-
-  struct md5_ctx ctx;
-  md5_init_ctx (&ctx);
-  size_t sum;
-
-  /* Iterate over full file contents.  */
-  while (1)
-    {
-      /* We read the file in blocks of BLOCKSIZE bytes.  One call of the
-         computation function processes the whole buffer so that with the
-         next round of the loop another block can be read.  */
-      size_t n;
-      sum = 0;
-
-      /* Read block.  Take care for partial reads.  */
-      while (1)
-        {
-          /* Either process a partial fread() from this loop,
-             or the fread() in afalg_stream may have gotten EOF.
-             We need to avoid a subsequent fread() as EOF may
-             not be sticky.  For details of such systems, see:
-             https://sourceware.org/bugzilla/show_bug.cgi?id=1190  */
-          if (feof (stream))
-            goto process_partial_block;
-
-          n = fread (buffer + sum, 1, BLOCKSIZE - sum, stream);
-
-          sum += n;
-
-          if (sum == BLOCKSIZE)
-            break;
-
-          if (n == 0)
-            {
-              /* Check for the error flag IFF N == 0, so that we don't
-                 exit the loop after a partial read due to e.g., EAGAIN
-                 or EWOULDBLOCK.  */
-              if (ferror (stream))
-                {
-                  free (buffer);
-                  return 1;
-                }
-              goto process_partial_block;
-            }
-        }
-
-      /* Process buffer with BLOCKSIZE bytes.  Note that
-         BLOCKSIZE % 64 == 0
-       */
-      md5_process_block (buffer, BLOCKSIZE, &ctx);
-    }
-
-process_partial_block:
-
-  /* Process any remaining bytes.  */
-  if (sum > 0)
-    md5_process_bytes (buffer, sum, &ctx);
-
-  /* Construct result in desired memory.  */
-  md5_finish_ctx (&ctx, resblock);
-  free (buffer);
-  return 0;
-}
-#endif
-
-#if ! HAVE_OPENSSL_MD5
 /* Compute MD5 message digest for LEN bytes beginning at BUFFER.  The
    result is always in little endian byte order, so that a byte-wise
    output yields to the wanted ASCII representation of the message
    digest.  */
-#ifndef INSANE
 void *
 md5_buffer (const char *buffer, size_t len, void *resblock) __THROW
 {
@@ -238,25 +127,6 @@ md5_buffer (const char *buffer, size_t len, void *resblock) __THROW
   /* Put result in desired memory area.  */
   return md5_finish_ctx (&ctx, resblock);
 }
-#else
-void *
-md5_buffer (const char *buffer, size_t len, void *resblock)
-{
-  struct md5_ctx ctx;
-
-  /* Initialize the computation context.  */
-  md5_init_ctx (&ctx);
-
-  for(size_t i=0;i<len;i++){
-    dprintf(1,".");
-    /* Process whole buffer but last len % 64 bytes.  */
-    md5_process_bytes (buffer+i, 1, &ctx);
-  };
-
-  /* Put result in desired memory area.  */
-  return md5_finish_ctx (&ctx, resblock);
-}
-#endif
 
 
 void
@@ -291,7 +161,6 @@ md5_process_bytes (const void *buffer, size_t len, struct md5_ctx *ctx) __THROW
   /* Process available complete blocks.  */
   if (len >= 64)
     {
-#if !(_STRING_ARCH_unaligned || _STRING_INLINE_unaligned)
 # define UNALIGNED_P(p) ((uintptr_t) (p) % alignof (uint32_t) != 0)
       if (UNALIGNED_P (buffer))
         while (len > 64)
@@ -301,7 +170,6 @@ md5_process_bytes (const void *buffer, size_t len, struct md5_ctx *ctx) __THROW
             len -= 64;
           }
       else
-#endif
         {
           md5_process_block (buffer, len & ~63, ctx);
           buffer = (const char *) buffer + (len & ~63);
@@ -499,11 +367,4 @@ md5_process_block (const void *buffer, size_t len, struct md5_ctx *ctx) __THROW
   ctx->C = C;
   ctx->D = D;
 }
-#endif
 
-/*
- * Hey Emacs!
- * Local Variables:
- * coding: utf-8
- * End:
- */
